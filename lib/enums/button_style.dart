@@ -4,7 +4,8 @@ import 'package:sipp_mobile/constant/textstyles.dart';
 
 enum AppButtonStyle {
   filled,
-  purpleFilled
+  purpleFilled,
+  redFilled
 }
 
 extension AppButtonStyleExt on AppButtonStyle {
@@ -40,6 +41,8 @@ extension AppButtonStyleExt on AppButtonStyle {
         return setFilledStyle();
       case AppButtonStyle.purpleFilled:
         return setFilledStyle(bgColor: AppColor.purple, pressedColor: AppColor.purple.withOpacity(0.9));
+      case AppButtonStyle.redFilled:
+        return setFilledStyle(bgColor: AppColor.red, pressedColor: AppColor.red.withOpacity(0.9));
     }
   }
 }

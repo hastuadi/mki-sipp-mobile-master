@@ -16,7 +16,7 @@ class BaseInput extends StatelessWidget {
   final TextInputAction? textInputAction;
   final Function(String?)? onSaved;
   final bool? obscureText;
-
+  final Color? fillColor;
 
   const BaseInput({
     Key? key,
@@ -31,7 +31,8 @@ class BaseInput extends StatelessWidget {
     this.maxLength,
     this.textInputAction,
     this.onSaved,
-    this.obscureText
+    this.obscureText,
+    this.fillColor
   }) : super(key: key);
 
   @override
@@ -49,7 +50,8 @@ class BaseInput extends StatelessWidget {
       onSaved: onSaved,
       obscureText: obscureText ?? false,
       decoration: InputDecoration(
-        filled: false,
+        filled: fillColor != null,
+        fillColor: fillColor,
         errorMaxLines: 2,
         isDense: true,
         hintText: hint,

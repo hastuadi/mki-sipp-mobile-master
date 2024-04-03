@@ -3,6 +3,7 @@ import 'package:sipp_mobile/component/button/base_button.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/enums/button_style.dart';
+import 'package:sipp_mobile/view/dashboard/widget/header_widget.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -14,33 +15,7 @@ class HomePageScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                SizedBox(
-                  height: 290,
-                  child: Container(
-                    color: AppColor.primaryColor,
-                  ),
-                ),
-                Positioned(
-                  left: -100,
-                  top: -87,
-                  child: Image.asset('assets/images/general/white-round-bg-icon.png'),
-                ),
-                Positioned(
-                  bottom: 48,
-                  left: 22,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Selamat Datang", style: AppTextStyle.regular12White,),
-                      const SizedBox(height: 2,),
-                      Text("Rafi Mochamad Fahreza", style: AppTextStyle.bold18White,),
-                    ],
-                  ),
-                )
-              ],
-            ),
+            const HeaderWidget(),
             const SizedBox(height: 8,),
             Padding(
               padding: const EdgeInsets.all(16.0),
