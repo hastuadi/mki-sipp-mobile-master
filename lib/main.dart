@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/injector.dart';
+import 'package:sipp_mobile/provider/app_provider.dart';
 import 'package:sipp_mobile/provider/splash_provider.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
 import 'package:sipp_mobile/view/splash_screen.dart';
@@ -12,14 +14,37 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => SplashProvider())
+      ChangeNotifierProvider(create: (context) => AppProvider())
     ],
       builder: (context, child) => const MyApp(),
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+
+  @override
+  void initState() {
+    EasyLoading.instance
+      ..indicatorType = EasyLoadingIndicatorType.ring
+      ..loadingStyle = EasyLoadingStyle.light
+      ..radius = 15.0
+      ..backgroundColor = Colors.white
+      ..indicatorColor = AppColor.purple
+      ..textColor = Colors.yellow
+      ..maskType = EasyLoadingMaskType.black
+      ..maskColor = Colors.black
+      ..userInteractions = false
+      ..dismissOnTap = false;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -32,6 +57,7 @@ class MyApp extends StatelessWidget {
       ),
       navigatorKey: AppNavigation.instance.navigatorKey,
       home: const SplashScreen(),
+      builder: EasyLoading.init(),
     );
   }
 }

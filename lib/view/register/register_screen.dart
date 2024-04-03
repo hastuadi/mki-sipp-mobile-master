@@ -17,6 +17,12 @@ class _RegisterState extends State<Register> {
   final TextEditingController nameController = TextEditingController();
 
   @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

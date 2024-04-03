@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/provider/splash_provider.dart';
@@ -12,7 +13,9 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    EasyLoading.show();
     Timer(const Duration(seconds: 3), () {
+      EasyLoading.dismiss();
       AppNavigation.instance.pushReplacement(page: const Login());
     });
     return ChangeNotifierProvider(
