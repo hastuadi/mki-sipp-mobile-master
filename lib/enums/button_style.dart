@@ -3,7 +3,8 @@ import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 
 enum AppButtonStyle {
-  filled
+  filled,
+  purpleFilled
 }
 
 extension AppButtonStyleExt on AppButtonStyle {
@@ -16,7 +17,7 @@ extension AppButtonStyleExt on AppButtonStyle {
     MaterialStateProperty<double?>? elevation
   }) {
     return ButtonStyle(
-      minimumSize: MaterialStateProperty.resolveWith<Size>((states) => const Size(double.infinity, 40)),
+      minimumSize: MaterialStateProperty.resolveWith<Size>((states) => const Size(double.infinity, 42)),
       shape: MaterialStateProperty.resolveWith<OutlinedBorder>((states) => RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
       elevation: elevation,
       backgroundColor: MaterialStateProperty.resolveWith<Color>(
@@ -37,6 +38,8 @@ extension AppButtonStyleExt on AppButtonStyle {
     switch(this) {
       case AppButtonStyle.filled:
         return setFilledStyle();
+      case AppButtonStyle.purpleFilled:
+        return setFilledStyle(bgColor: AppColor.purple, pressedColor: AppColor.purple.withOpacity(0.9));
     }
   }
 }

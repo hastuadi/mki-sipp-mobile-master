@@ -78,7 +78,7 @@ class BaseInput extends StatelessWidget {
               color: Colors.black26
           ),
         ),
-        hintStyle: AppTextStyle.regular12Black
+        hintStyle: AppTextStyle.regular12Black26
       ),
     );
   }

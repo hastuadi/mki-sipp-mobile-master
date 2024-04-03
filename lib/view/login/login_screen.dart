@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:sipp_mobile/util/app_navigation.dart';
+import 'package:sipp_mobile/view/dashboard/bottom_nav_bar.dart';
+import 'package:sipp_mobile/view/register/register_screen.dart';
 
 import '../../component/button/base_button.dart';
 import '../../component/input/base_input.dart';
@@ -53,7 +56,9 @@ class _LoginState extends State<Login> {
           mainAxisSize: MainAxisSize.min,
           children: [
             BaseButton(
-              onPressed: null,
+              onPressed: () {
+                AppNavigation.instance.push(page: const DashboardBottomNavBar());
+              },
               buttonStyle: AppButtonStyle.filled,
               child: Text("Masuk", style: AppTextStyle.bold12White,),
             ),
@@ -64,7 +69,9 @@ class _LoginState extends State<Login> {
                 Text("Belum punya akun?", style: AppTextStyle.regular14Black,),
                 const SizedBox(width: 3,),
                 InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      AppNavigation.instance.push(page: const Register());
+                    },
                     child: Text("Daftar", style: AppTextStyle.bold14Primary,)
                 ),
               ],

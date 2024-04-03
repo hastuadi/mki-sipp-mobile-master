@@ -21,4 +21,10 @@ class AppNavigation {
     AppNavigation.instance.navigatorKey.currentState!.pop(result);
   }
 
+  pushReplacement({required Widget page}) {
+    AppNavigation.instance.navigatorKey.currentState!.pushReplacement(
+      CupertinoPageRoute(builder: (context) => page,)
+    );
+  }
+
 }
