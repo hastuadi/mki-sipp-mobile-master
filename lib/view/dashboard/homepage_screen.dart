@@ -8,7 +8,7 @@ import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/enums/button_style.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
 import 'package:sipp_mobile/view/dashboard/widget/header_widget.dart';
-import 'package:sipp_mobile/view/research/research_list.dart';
+import 'package:sipp_mobile/view/research/research_list_screen.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);

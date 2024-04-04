@@ -50,6 +50,8 @@ class AppTextStyle {
   static TextStyle regular12White = AppTextStyle.regular12.copyWith(color: Colors.white);
   static TextStyle bold18White = AppTextStyle.bold18.copyWith(color: Colors.white);
   static TextStyle regular12Black26 = AppTextStyle.regular12.copyWith(color: Colors.black26);
+  static TextStyle regular12Grey = AppTextStyle.regular12.copyWith(color: AppColor.grey);
   static TextStyle bold12White = AppTextStyle.bold12.copyWith(color: Colors.white);
+  static TextStyle bold12Black = AppTextStyle.bold12.copyWith(color: Colors.black);
 
 }

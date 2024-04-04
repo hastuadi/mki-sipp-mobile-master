@@ -39,7 +39,6 @@ class _MyAppState extends State<MyApp> {
       ..indicatorColor = AppColor.purple
       ..textColor = Colors.yellow
       ..maskType = EasyLoadingMaskType.black
-      ..maskColor = Colors.black
       ..userInteractions = false
       ..dismissOnTap = false;
     super.initState();
