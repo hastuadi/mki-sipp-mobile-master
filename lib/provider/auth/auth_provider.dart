@@ -3,6 +3,7 @@ import 'package:sipp_mobile/model/login_response.dart';
 import 'package:sipp_mobile/model/request/login_request.dart';
 import 'package:sipp_mobile/provider/base_provider.dart';
 import 'package:sipp_mobile/repository/auth/auth_repo.dart';
+import 'package:sipp_mobile/util/cache_manager.dart';
 
 class AuthProvider extends BaseProvider {
 
@@ -17,12 +18,17 @@ class AuthProvider extends BaseProvider {
       EasyLoading.show();
       loading(true);
       _loginResponse = await repo.login(request);
-      EasyLoading.dismiss();
-      loading(false);
+      _onSuccessLogin();
     } catch (e) {
       EasyLoading.dismiss();
       /// TODO
     }
+  }
+
+  Future<void> _onSuccessLogin() async {
+    await CacheManager.instance.saveInitialUserData(_loginResponse?.data?.token);
+    EasyLoading.dismiss();
+    loading(false);
   }
 
 }

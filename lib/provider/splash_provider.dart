@@ -1,9 +1,9 @@
-import 'dart:async';
+import 'package:sipp_mobile/provider/base_provider.dart';
+import 'package:sipp_mobile/util/cache_manager.dart';
 
-import 'package:flutter/cupertino.dart';
-import 'package:sipp_mobile/util/app_navigation.dart';
-import 'package:sipp_mobile/view/login/login_screen.dart';
-
-class SplashProvider extends ChangeNotifier {
-
+class SplashProvider extends BaseProvider {
+  Future<bool> hasLogin() async {
+    bool login = await CacheManager.instance.checkHasLogin();
+    return login;
+  }
 }

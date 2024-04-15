@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
         useMaterial3: true,
       ),
       navigatorKey: AppNavigation.instance.navigatorKey,
-      home: const SplashScreen(),
+      home: const SplashBase(),
       builder: EasyLoading.init(),
     );
   }
