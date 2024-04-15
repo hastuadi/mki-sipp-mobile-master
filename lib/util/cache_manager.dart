@@ -40,9 +40,11 @@ class CacheManager {
     }
   }
 
-  Future<void> saveInitialUserData(String? token) async {
+  Future<void> saveInitialUserData(String? token, String? fullName, String? email) async {
     await _writeUserData(SharedPrefs.isLogin.key, "true");
     await _writeUserData(SharedPrefs.token.key, token ?? "");
+    await _writeUserData(SharedPrefs.fullName.key, fullName ?? "");
+    await _writeUserData(SharedPrefs.email.key, email ?? "");
   }
 
   Future<bool> checkHasLogin() async {

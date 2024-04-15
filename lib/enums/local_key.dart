@@ -1,5 +1,5 @@
 enum SharedPrefs {
-  isLogin, token
+  isLogin, token, fullName, email
 }
 
 extension LocalKeyString on SharedPrefs {
@@ -9,6 +9,10 @@ extension LocalKeyString on SharedPrefs {
         return "isLogin";
       case SharedPrefs.token:
         return "token";
+      case SharedPrefs.fullName:
+        return "name";
+      case SharedPrefs.email:
+        return "email";
     }
   }
 }

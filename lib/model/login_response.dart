@@ -26,15 +26,19 @@ class LoginResponse extends BaseResponse {
 
 class Data {
   String? token;
+  String? fullName;
+  String? email;
 
-  Data({this.token});
+  Data({this.token, this.fullName, this.email});
 
   factory Data.fromJson(Map<String, dynamic> json) {
-    return Data(token: json["token"]);
+    return Data(token: json["token"], fullName: json["full_name"], email: json["email"]);
   }
 
   Map<String, dynamic> toJson() => {
-    "token": token
+    "token": token,
+    "full_name": fullName,
+    "email": email
   };
 
 }

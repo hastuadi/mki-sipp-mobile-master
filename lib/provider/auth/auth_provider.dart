@@ -26,7 +26,7 @@ class AuthProvider extends BaseProvider {
   }
 
   Future<void> _onSuccessLogin() async {
-    await CacheManager.instance.saveInitialUserData(_loginResponse?.data?.token);
+    await CacheManager.instance.saveInitialUserData(_loginResponse?.data?.token, _loginResponse?.data?.fullName, _loginResponse?.data?.email);
     EasyLoading.dismiss();
     loading(false);
   }
