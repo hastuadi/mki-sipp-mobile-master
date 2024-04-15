@@ -11,6 +11,10 @@ class AppNavigation {
     return instance;
   }
 
+  BuildContext? getContext() {
+    return AppNavigation.instance.navigatorKey.currentContext;
+  }
+
   Future push<T extends Object?>({required Widget page}) async {
     AppNavigation.instance.navigatorKey.currentState!.push(
       CupertinoPageRoute(builder: (context) => page,)

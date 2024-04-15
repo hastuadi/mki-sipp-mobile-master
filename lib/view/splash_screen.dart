@@ -16,7 +16,7 @@ class SplashScreen extends StatelessWidget {
     EasyLoading.show();
     Timer(const Duration(seconds: 3), () {
       EasyLoading.dismiss();
-      AppNavigation.instance.pushReplacement(page: const Login());
+      AppNavigation.instance.pushReplacement(page: const LoginBase());
     });
     return ChangeNotifierProvider(
       create: (context) => SplashProvider(),
