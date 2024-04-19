@@ -16,6 +16,7 @@ class Network {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
       return responseJson;
     } catch (e) {
+      print("resp ${e.toString()}");
       throw Exception('Something went wrong');
     }
   }

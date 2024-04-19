@@ -52,4 +52,9 @@ class CacheManager {
     return hasLogin;
   }
 
+  Future<String?> getUserToken() async {
+    String? token = await _readUserData(SharedPrefs.token.key);
+    return token;
+  }
+
 }

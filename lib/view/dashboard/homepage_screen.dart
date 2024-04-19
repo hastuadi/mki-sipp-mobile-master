@@ -15,10 +15,6 @@ class HomePageScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EasyLoading.show();
-    Timer(const Duration(seconds: 3), () {
-      EasyLoading.dismiss();
-    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

@@ -2,36 +2,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 
 import 'package:latlong2/latlong.dart';
+import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sipp_mobile/provider/research/research_provider.dart';
+import 'package:sipp_mobile/repository/research/research_repo.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
 import 'package:sipp_mobile/view/research/research_detail_screen.dart';
 
 import '../../constant/textstyles.dart';
+import '../../injector.dart';
 
-class ResearchLocationScreen extends StatefulWidget {
+class ResearchLocationScreen extends StatelessWidget {
   const ResearchLocationScreen({Key? key}) : super(key: key);
 
   @override
-  State<ResearchLocationScreen> createState() => _ResearchLocationScreenState();
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+        create: (context) {
+          ResearchProvider provider = ResearchProvider(locator<ResearchRepo>());
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            await provider.getResearchList();
+          });
+          return provider;
+        },
+      child: const ResearchLocationBody(),
+    );
+  }
 }
 
-class _ResearchLocationScreenState extends State<ResearchLocationScreen> {
-  bool _loading = true;
+class ResearchLocationBody extends StatelessWidget {
+  const ResearchLocationBody({Key? key}) : super(key: key);
 
-  static const List<String> locations = [
-    "Sawang aceh", "Nusa Tenggara Timur", "Pulau Seribu"
-  ];
-
-  @override
-  void initState() {
-    Future.delayed(const Duration(seconds: 3), () {
-      setState(() {
-        _loading = false;
-      });
-    });
-    super.initState();
-  }
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,66 +45,20 @@ class _ResearchLocationScreenState extends State<ResearchLocationScreen> {
         children: [
           SizedBox(
             height: 250,
-            child: FlutterMap(
-                options: const MapOptions(
-                  initialCenter: LatLng(-6.943097, 107.633545),
-                  initialZoom: 3.0,
-                  interactionOptions: InteractionOptions(
-                    enableScrollWheel: true,
-                    flags: InteractiveFlag.all
-                  )
-                ),
-                children: [
-                  TileLayer(
-                    retinaMode: true,
-                    urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  ),
-                  MarkerLayer(
-                    markers: [
-                      Marker(
-                        point: const LatLng(5.2023, 96.9321),
-                        width: 40,
-                        height: 40,
-                        child: GestureDetector(
-                          onTap: () {
-
-                          },
-                            child: Image.asset("assets/images/general/map-marker-icon.png")
-                        ),
-                      ),
-                    ],
-                  ),
-                  MarkerLayer(
-                    markers: [
-                      Marker(
-                        point: const LatLng( -8.657382, 121.079369),
-                        width: 40,
-                        height: 40,
-                        child: GestureDetector(
-                            onTap: () {
-
-                            },
-                            child: Image.asset("assets/images/general/map-marker-icon.png")
-                        ),
-                      ),
-                    ],
-                  ),
-                  MarkerLayer(
-                    markers: [
-                      Marker(
-                        point: const LatLng(-5.798526, 106.507198),
-                        width: 40,
-                        height: 40,
-                        child: GestureDetector(
-                            onTap: () {
-
-                            },
-                            child: Image.asset("assets/images/general/map-marker-icon.png")
-                        ),
-                      ),
-                    ],
-                  ),
-                ]
+            child: Consumer<ResearchProvider>(
+              builder: (context, provider, child) {
+                return FlutterMap(
+                    options: const MapOptions(
+                        initialCenter: LatLng(-6.943097, 107.633545),
+                        initialZoom: 3.0,
+                        interactionOptions: InteractionOptions(
+                            enableScrollWheel: true,
+                            flags: InteractiveFlag.all
+                        )
+                    ),
+                    children: provider.mapChildren
+                );
+              },
             ),
           ),
           const SizedBox(height: 24,),
@@ -113,49 +68,53 @@ class _ResearchLocationScreenState extends State<ResearchLocationScreen> {
           ),
           const SizedBox(height: 24,),
           Expanded(
-            child: ListView.separated(
-              itemCount: _loading ? 3 : locations.length,
-              itemBuilder: (context, index) {
-                return Visibility(
-                  visible: !_loading,
-                  replacement: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Shimmer.fromColors(
-                      enabled: true,
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.grey.shade100,
-                        child: Container(height: 24, decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: Colors.grey
-                        ),),
-                    ),
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      AppNavigation.instance.push(page: const ResearchDetail());
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Text(
-                        locations[index],
-                        style: AppTextStyle.regular12Black,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+            child: Consumer<ResearchProvider>(
+              builder: (context, provider, child) {
+                return ListView.separated(
+                  itemCount: provider.isLoading ? 3 : provider.researchListResponse?.data?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    return Visibility(
+                      visible: !provider.isLoading,
+                      replacement: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Shimmer.fromColors(
+                          enabled: true,
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(height: 24, decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.grey
+                          ),),
+                        ),
                       ),
+                      child: InkWell(
+                        onTap: () {
+                          AppNavigation.instance.push(page: const ResearchDetail());
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text(
+                            "${provider.researchListResponse?.data?[index].location} (${provider.researchListResponse?.data?[index].province})",
+                            style: AppTextStyle.regular12Black,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Visibility(
+                      visible: !provider.isLoading,
+                      replacement: Divider(
+                        color: Colors.grey.shade300,
+                      ),
+                      child: const Divider(),
                     ),
-                  ),
-                );
+                  ),);
               },
-              separatorBuilder: (context, index) => Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Visibility(
-                  visible: !_loading,
-                  replacement: Divider(
-                    color: Colors.grey.shade300,
-                  ),
-                  child: const Divider(),
-                ),
-              ),),
+            ),
           )
         ],
       ),

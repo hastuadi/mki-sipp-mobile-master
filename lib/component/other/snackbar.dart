@@ -19,7 +19,7 @@ class AppSnackBar {
           children: [
             const Icon(Icons.warning_rounded, color: Colors.white,),
             const SizedBox(width: 10,),
-            Text(message ?? "", style: AppTextStyle.regular12White,),
+            Expanded(child: Text(message ?? "", style: AppTextStyle.regular12White,)),
           ],
         ),
         backgroundColor: Colors.orange,
