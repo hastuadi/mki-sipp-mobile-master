@@ -12,7 +12,7 @@ class Research {
     return Research(
       location: json?["location"],
       province: json?["province"],
-      masterImageId: json?["masterImageId"],
+      masterImageId: json?["master_image_id"],
       longitude: json?["longitude"],
       latitude: json?["latitude"]
     );

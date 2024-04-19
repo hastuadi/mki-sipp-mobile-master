@@ -89,7 +89,7 @@ class ResearchLocationBody extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          AppNavigation.instance.push(page: const ResearchDetail());
+                          AppNavigation.instance.push(page: ResearchDetail(researchId: provider.researchListResponse?.data?[index].masterImageId ?? 0,));
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),

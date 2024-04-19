@@ -27,9 +27,11 @@ class Network {
       final response = await http.post(endpoint, body: jsonEncode(body), headers: headers).timeout(const Duration(seconds: 60), onTimeout: () {
         return flutter_http.Response("Request Time Out", 504);
       });
+      print("RESNET ${response.body}");
       Map<String, dynamic> responseJson = jsonDecode(response.body);
       return responseJson;
     } catch (e) {
+      print("ERR ${e.toString()}");
       throw Exception('Something went wrong ${e.toString()}');
     }
   }

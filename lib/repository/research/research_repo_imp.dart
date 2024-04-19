@@ -4,6 +4,7 @@ import 'package:sipp_mobile/enums/endpoint.dart';
 import 'package:sipp_mobile/repository/research/research_repo.dart';
 import 'package:sipp_mobile/util/cache_manager.dart';
 
+import '../../model/research_detail_response.dart';
 import '../../model/research_list_response.dart';
 
 class ResearchRepoImp implements ResearchRepo {
@@ -21,7 +22,21 @@ class ResearchRepoImp implements ResearchRepo {
       Map<String, dynamic>? response = await service.get(Endpoint.researchList.getString, headers: header);
       return ResearchListResponse().fromJson(response);
     } catch (e) {
-      print("error ${e.toString()}");
+      rethrow;
+    }
+  }
+
+  @override
+  Future<ResearchDetailResponse?> getDetail(Map<String, int> body) async {
+    try {
+      String? token = await CacheManager.instance.getUserToken();
+      Map<String, String> headers = AppConstant.baseHeader;
+      headers["Authorization"] = "Bearer ${token ?? ''}";
+      headers["Content-Type"] = "application/json";
+      Map<String, dynamic>? response = await service.post(Endpoint.researchResult.getString, body, headers: headers);
+      return ResearchDetailResponse().fromJson(response);
+    } catch (e) {
+      print("ERR ${e.toString()}");
       rethrow;
     }
   }

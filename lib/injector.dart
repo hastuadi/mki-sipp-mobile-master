@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:sipp_mobile/data/network.dart';
 import 'package:sipp_mobile/provider/auth/auth_provider.dart';
+import 'package:sipp_mobile/provider/research/research_detail_provider.dart';
 import 'package:sipp_mobile/provider/research/research_provider.dart';
 import 'package:sipp_mobile/repository/auth/auth_repo.dart';
 import 'package:sipp_mobile/repository/auth/auth_repo_imp.dart';
@@ -23,5 +24,6 @@ Future<void> registerDependency() async {
 
   locator.registerFactory<AuthProvider>(() => AuthProvider(locator<AuthRepo>()));
   locator.registerFactory<ResearchProvider>(() => ResearchProvider(locator<ResearchRepo>()));
+  locator.registerFactory<ResearchDetailProvider>(() => ResearchDetailProvider(locator<ResearchRepo>()));
 
 }

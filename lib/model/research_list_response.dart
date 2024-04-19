@@ -12,6 +12,7 @@ class ResearchListResponse extends BaseResponse {
     return ResearchListResponse(
         code: json?["code"],
         data: data,
+        message: json?["message"],
         status: json?["status"],
         url: json?["url"]
     );
