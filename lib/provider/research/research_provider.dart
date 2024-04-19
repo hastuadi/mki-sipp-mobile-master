@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/provider/base_provider.dart';
 
 import '../../model/research_list_response.dart';
@@ -43,7 +44,13 @@ class ResearchProvider extends BaseProvider {
                     point: LatLng(_researchListResponse?.data?[i].latitude ?? 0.0, _researchListResponse?.data?[i].longitude ?? 0.0),
                     width: 40,
                     height: 40,
-                    child: Image.asset("assets/images/general/map-marker-icon.png"),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(_researchListResponse?.data?[i].location ?? "", style: AppTextStyle.regular6Black,),
+                        Image.asset("assets/images/general/map-marker-icon.png", width: 24, height: 24,),
+                      ],
+                    ),
                   ),
                 ],
               )

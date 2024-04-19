@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
-import 'package:sipp_mobile/view/login/login_screen.dart';
 import 'package:sipp_mobile/view/research/research_location_screen.dart';
 
 import '../../constant/textstyles.dart';
