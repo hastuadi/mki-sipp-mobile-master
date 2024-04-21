@@ -16,7 +16,21 @@ class SplashBase extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-        create: (context) => SplashProvider(),
+        create: (context) {
+          SplashProvider provider = SplashProvider();
+          EasyLoading.show();
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+            bool login = await provider.hasLogin();
+            if(login) {
+              EasyLoading.dismiss();
+              AppNavigation.instance.pushReplacement(page: const DashboardBottomNavBar());
+            } else {
+              EasyLoading.dismiss();
+              AppNavigation.instance.pushReplacement(page: const LoginBase());
+            }
+          });
+          return provider;
+        },
       child: const SplashScreen(),
     );
   }
@@ -27,17 +41,6 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    EasyLoading.show();
-    Timer(const Duration(seconds: 3), () async {
-      bool login = await context.read<SplashProvider>().hasLogin();
-      if(login) {
-        EasyLoading.dismiss();
-        AppNavigation.instance.pushReplacement(page: const DashboardBottomNavBar());
-      } else {
-        EasyLoading.dismiss();
-        AppNavigation.instance.pushReplacement(page: const LoginBase());
-      }
-    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -63,7 +66,12 @@ class SplashScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Text("Versi aplikasi 1.0.0", style: AppTextStyle.regular14Black, textAlign: TextAlign.center,),
+                Selector<SplashProvider, bool>(
+                  selector: (p0, provider) => provider.hasLoginValue,
+                    builder: (context, value, child) {
+                      return Text("Selamat Datang", style: AppTextStyle.regular14Black, textAlign: TextAlign.center,);
+                    },
+                ),
                 const SizedBox(height: 24,)
               ],
             ),

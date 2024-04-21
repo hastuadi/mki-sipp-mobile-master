@@ -21,6 +21,12 @@ class AppNavigation {
     );
   }
 
+  Future pushAndRemoveUntil<T extends Object?>({required Widget page}) async {
+    AppNavigation.instance.navigatorKey.currentState!.pushAndRemoveUntil(
+        CupertinoPageRoute(builder: (context) => page,), (route) => false,
+    );
+  }
+
   pop<T extends Object?>([T? result]) {
     AppNavigation.instance.navigatorKey.currentState!.pop(result);
   }

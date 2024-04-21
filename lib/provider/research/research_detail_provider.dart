@@ -2,6 +2,8 @@ import 'package:sipp_mobile/model/research_detail_response.dart';
 import 'package:sipp_mobile/provider/base_provider.dart';
 import 'package:sipp_mobile/repository/research/research_repo.dart';
 
+import '../../component/other/snackbar.dart';
+
 class ResearchDetailProvider extends BaseProvider {
 
   ResearchRepo repo;
@@ -17,10 +19,10 @@ class ResearchDetailProvider extends BaseProvider {
         "master_menu_id": masterImageId
       };
       _detailResponse = await repo.getDetail(body);
-      print("RESP ${_detailResponse?.status}");
       loading(false);
     } catch (e) {
-      /// TODO
+      loading(false);
+      AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
     }
   }
 

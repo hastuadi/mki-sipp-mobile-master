@@ -16,22 +16,19 @@ class Network {
       Map<String, dynamic> responseJson = jsonDecode(response.body);
       return responseJson;
     } catch (e) {
-      print("resp ${e.toString()}");
       throw Exception('Something went wrong');
     }
   }
 
-  Future<Map<String, dynamic>?> post(String url, Map<String, dynamic> body, {Map<String, String>? headers}) async {
+  Future<Map<String, dynamic>?> post(String url, Map<String, dynamic>? body, {Map<String, String>? headers}) async {
     Uri endpoint = Uri.parse(AppConstant.baseUrl+url);
     try {
       final response = await http.post(endpoint, body: jsonEncode(body), headers: headers).timeout(const Duration(seconds: 60), onTimeout: () {
         return flutter_http.Response("Request Time Out", 504);
       });
-      print("RESNET ${response.body}");
       Map<String, dynamic> responseJson = jsonDecode(response.body);
       return responseJson;
     } catch (e) {
-      print("ERR ${e.toString()}");
       throw Exception('Something went wrong ${e.toString()}');
     }
   }

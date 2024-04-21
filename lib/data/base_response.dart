@@ -6,12 +6,12 @@ class BaseResponse {
 
   BaseResponse({this.code, this.message, this.status, this.url});
 
-  factory BaseResponse.fromJson(Map<String, dynamic> json) {
+  factory BaseResponse.fromJson(Map<String, dynamic>? json) {
     return BaseResponse(
-        code: json["code"],
-        message: json["message"],
-        status: json["status"],
-        url: json["url"]
+        code: json?["code"],
+        message: json?["message"],
+        status: json?["status"],
+        url: json?["url"]
     );
   }
 

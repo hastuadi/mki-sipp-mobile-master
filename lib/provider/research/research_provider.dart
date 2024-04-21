@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/provider/base_provider.dart';
 
+import '../../component/other/snackbar.dart';
 import '../../model/research_list_response.dart';
 import '../../repository/research/research_repo.dart';
 
@@ -29,7 +30,7 @@ class ResearchProvider extends BaseProvider {
       await _onSuccessGetList();
     } catch (e) {
       loading(false);
-      /// TODO
+      AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
     }
   }
 

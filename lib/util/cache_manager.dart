@@ -33,11 +33,15 @@ class CacheManager {
   static Future<String?> _readUserData(String key) async {
     String? encryptedLocalData = await _storage.read(key: key, aOptions: const AndroidOptions(encryptedSharedPreferences: true, keyCipherAlgorithm: KeyCipherAlgorithm.RSA_ECB_OAEPwithSHA_256andMGF1Padding, storageCipherAlgorithm: StorageCipherAlgorithm.AES_CBC_PKCS7Padding));
     if(encryptedLocalData != null) {
-      String? localData = _generateCipher().decrypt(encrypted_lib.Encrypted.fromBase64(encryptedLocalData ?? " "));
+      String? localData = _generateCipher().decrypt(encrypted_lib.Encrypted.fromBase64(encryptedLocalData));
       return localData;
     } else {
       return " ";
     }
+  }
+
+  static Future<void> _deleteUserData(String key) async {
+    await _storage.delete(key: key, aOptions: const AndroidOptions(encryptedSharedPreferences: true, keyCipherAlgorithm: KeyCipherAlgorithm.RSA_ECB_OAEPwithSHA_256andMGF1Padding, storageCipherAlgorithm: StorageCipherAlgorithm.AES_CBC_PKCS7Padding));
   }
 
   Future<void> saveInitialUserData(String? token, String? fullName, String? email) async {
@@ -55,6 +59,23 @@ class CacheManager {
   Future<String?> getUserToken() async {
     String? token = await _readUserData(SharedPrefs.token.key);
     return token;
+  }
+
+  Future<String?> getUserName() async {
+    String? name = await _readUserData(SharedPrefs.fullName.key);
+    return name;
+  }
+
+  Future<String?> getUserEmail() async {
+    String? email = await _readUserData(SharedPrefs.email.key);
+    return email;
+  }
+
+  Future<void> deleteUserSession() async {
+    await _deleteUserData(SharedPrefs.fullName.key);
+    await _deleteUserData(SharedPrefs.email.key);
+    await _deleteUserData(SharedPrefs.token.key);
+    await _deleteUserData(SharedPrefs.isLogin.key);
   }
 
 }
