@@ -4,6 +4,7 @@ import 'package:sipp_mobile/data/network.dart';
 import 'package:sipp_mobile/enums/endpoint.dart';
 import 'package:sipp_mobile/model/login_response.dart';
 import 'package:sipp_mobile/model/request/login_request.dart';
+import 'package:sipp_mobile/model/request/register_request.dart';
 import 'package:sipp_mobile/repository/auth/auth_repo.dart';
 import 'package:sipp_mobile/util/cache_manager.dart';
 
@@ -33,8 +34,19 @@ class AuthRepoImp implements AuthRepo {
       Map<String, String> headers = AppConstant.baseHeader;
       headers["Authorization"] = "Bearer ${token ?? ''}";
       headers["Content-Type"] = "application/json";
-      print("HEADER $headers");
       Map<String, dynamic>? response = await service.post(Endpoint.logout.getString, null, headers: headers);
+      return BaseResponse.fromJson(response);
+    } catch(e) {
+      rethrow;
+    }
+  }
+
+  @override
+  Future<BaseResponse?> createUser(RegisterRequest body) async {
+    try {
+      Map<String, String> headers = AppConstant.baseHeader;
+      headers["Content-Type"] = "application/json";
+      Map<String, dynamic>? response = await service.post(Endpoint.createUser.getString, body.toJson(), headers: headers);
       return BaseResponse.fromJson(response);
     } catch(e) {
       rethrow;

@@ -11,6 +11,8 @@ import 'package:sipp_mobile/view/research/research_detail_screen.dart';
 
 import '../../constant/textstyles.dart';
 import '../../injector.dart';
+import '../../util/cache_manager.dart';
+import '../login/login_screen.dart';
 
 class ResearchLocationScreen extends StatelessWidget {
   const ResearchLocationScreen({Key? key}) : super(key: key);
@@ -22,6 +24,10 @@ class ResearchLocationScreen extends StatelessWidget {
           ResearchProvider provider = ResearchProvider(locator<ResearchRepo>());
           WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
             await provider.getResearchList();
+            if (provider.researchListResponse?.code == 401) {
+              await CacheManager.instance.deleteUserSession();
+              AppNavigation.instance.pushAndRemoveUntil(page: const LoginBase());
+            }
           });
           return provider;
         },

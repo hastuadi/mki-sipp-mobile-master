@@ -112,7 +112,7 @@ class _LoginState extends State<Login> {
                 const SizedBox(width: 3,),
                 InkWell(
                     onTap: () {
-                      AppNavigation.instance.push(page: const Register());
+                      AppNavigation.instance.push(page: const RegisterBase());
                     },
                     child: Text("Daftar", style: AppTextStyle.bold14Primary,)
                 ),

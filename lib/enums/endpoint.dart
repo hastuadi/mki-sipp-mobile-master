@@ -1,5 +1,5 @@
 enum Endpoint {
-  login, logout, researchList, researchResult
+  login, createUser, logout, researchList, researchResult
 }
 
 extension RawString on Endpoint {
@@ -7,6 +7,8 @@ extension RawString on Endpoint {
     switch(this) {
       case Endpoint.login:
         return "/user/login";
+      case Endpoint.createUser:
+        return "/user/create_user";
       case Endpoint.logout:
         return "/user/logout";
       case Endpoint.researchList:

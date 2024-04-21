@@ -8,6 +8,9 @@ import 'package:sipp_mobile/repository/research/research_repo.dart';
 
 import '../../constant/textstyles.dart';
 import '../../injector.dart';
+import '../../util/app_navigation.dart';
+import '../../util/cache_manager.dart';
+import '../login/login_screen.dart';
 
 class ResearchDetail extends StatelessWidget {
 
@@ -66,6 +69,10 @@ class ResearchDetail extends StatelessWidget {
         ResearchDetailProvider provider = ResearchDetailProvider(locator<ResearchRepo>());
         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
           await provider.getDetail(researchId);
+          if (provider.detailResponse?.code == 401) {
+            await CacheManager.instance.deleteUserSession();
+            AppNavigation.instance.pushAndRemoveUntil(page: const LoginBase());
+          }
         });
         return provider;
       },
