@@ -1,10 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:sipp_mobile/component/other/shimmer.dart';
 import 'package:sipp_mobile/constant/colors.dart';
-import 'package:sipp_mobile/model/research_detail_response.dart';
 import 'package:sipp_mobile/provider/research/research_detail_provider.dart';
 import 'package:sipp_mobile/repository/research/research_repo.dart';
 
@@ -19,6 +17,50 @@ class ResearchDetail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    void showImageDetail(String? imageUrl, int? total) {
+      showModalBottomSheet(context: context, builder: (context) {
+        return SizedBox(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Lihat Gambar", style: AppTextStyle.bold14Black,),
+                const SizedBox(height: 16,),
+                SizedBox(
+                  height: 250,
+                  width: double.infinity,
+                  child: InteractiveViewer(
+                    panEnabled: true,
+                    minScale: 0.5,
+                    maxScale: 4,
+                    child: CachedNetworkImage(
+                      imageUrl: imageUrl ?? "-",
+                      fit: BoxFit.fitHeight,
+                      placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
+                      errorWidget: (context, url, error) {
+                        return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
+                            color: Colors.grey.shade300
+                        ),
+                          child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
+                      },
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16,),
+                Text("Total Objek", style: AppTextStyle.regular12Grey,),
+                const SizedBox(height: 8,),
+                Text(total.toString() , style: AppTextStyle.regular14Black,)
+              ],
+            ),
+          ),
+        );
+      },);
+    }
+
     return ChangeNotifierProvider(
       create: (context) {
         ResearchDetailProvider provider = ResearchDetailProvider(locator<ResearchRepo>());
@@ -42,25 +84,32 @@ class ResearchDetail extends StatelessWidget {
                   builder: (context, provider, child) => Visibility(
                     visible: !provider.isLoading,
                     replacement: const AppShimmer(height: 280, width: double.infinity),
-                    child: CachedNetworkImage(
-                      height: 280,
-                      width: double.infinity,
-                      fit: BoxFit.fitHeight,
-                      imageUrl: provider.detailResponse?.baseResourcePath ?? "",
-                      placeholder: (context, url) {
-                        return const AppShimmer(height: 280, width: double.infinity);
-                      },
-                      errorWidget: (context, url, error) {
-                        return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
-                            color: Colors.grey.shade300
-                        ),
-                        child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
-                      },
+                    child: InteractiveViewer(
+                      panEnabled: true,
+                      minScale: 0.5,
+                      maxScale: 4,
+                      child: CachedNetworkImage(
+                        height: 280,
+                        width: double.infinity,
+                        fit: BoxFit.fitHeight,
+                        imageUrl: provider.detailResponse?.baseResourcePath ?? "",
+                        placeholder: (context, url) {
+                          return const AppShimmer(height: 280, width: double.infinity);
+                        },
+                        errorWidget: (context, url, error) {
+                          return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
+                              color: Colors.grey.shade300
+                          ),
+                          child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
+                        },
+                      ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 24,),
                 Text("Hasil Penelitian", style: AppTextStyle.bold14Black,),
+                const SizedBox(height: 16,),
+                Text("(Klik pada gambar untuk zoom in/out)", style: AppTextStyle.regular12Grey,),
                 const SizedBox(height: 16,),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -99,7 +148,7 @@ class ResearchDetail extends StatelessWidget {
                 const SizedBox(height: 24,),
                 Text("Lampiran Penelitian", style: AppTextStyle.bold14Black,),
                 const SizedBox(height: 8,),
-                Text("(Klik pada gambar untuk perjelas)", style: AppTextStyle.regular12Grey,),
+                Text("(Klik pada gambar untuk perbesar)", style: AppTextStyle.regular12Grey,),
                 const SizedBox(height: 20,),
                 SizedBox(
                   height: 106,
@@ -119,18 +168,23 @@ class ResearchDetail extends StatelessWidget {
                             ),
                             child: Row(
                               children: [
-                                CachedNetworkImage(
-                                    imageUrl: provider.detailResponse?.regions?[index].regionResourcePath ?? "-",
-                                  fit: BoxFit.fitHeight,
-                                  placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
-                                  errorWidget: (context, url, error) {
-                                    return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
-                                        color: Colors.grey.shade300
-                                    ),
-                                      child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
+                                const SizedBox(width: 10,),
+                                GestureDetector(
+                                  onTap: () {
+                                    showImageDetail(provider.detailResponse?.regions?[index].regionResourcePath, provider.detailResponse?.regions?[index].countObject);
                                   },
-                                ),
-                                const SizedBox(width: 10,)
+                                  child: CachedNetworkImage(
+                                      imageUrl: provider.detailResponse?.regions?[index].regionResourcePath ?? "-",
+                                    fit: BoxFit.fitHeight,
+                                    placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
+                                    errorWidget: (context, url, error) {
+                                      return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
+                                          color: Colors.grey.shade300
+                                      ),
+                                        child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
+                                    },
+                                  ),
+                                )
                               ],
                             ),
                           );
