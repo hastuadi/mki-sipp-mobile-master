@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sipp_mobile/component/button/base_button.dart';
+import 'package:sipp_mobile/component/other/responsive_layout.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/enums/button_style.dart';
@@ -36,27 +37,30 @@ class HomePageScreen extends StatelessWidget {
                       color: AppColor.purpleTransparent,
                       borderRadius: BorderRadius.circular(20)
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text("Penelitian Lapangan", style: AppTextStyle.bold14Purple,),
-                              const SizedBox(height: 8,),
-                              Text("Daftar hasil dari penelitian lapangan,\nbisa diakses siapapun!", style: AppTextStyle.regular12Black,),
-                              const SizedBox(height: 14,),
-                              BaseButton(
-                                  buttonStyle: AppButtonStyle.purpleFilled,
-                                  onPressed: () {
-                                    AppNavigation.instance.push(page: const ResearchListScreen());
-                                  },
-                                  child: Text("Periksa", style: AppTextStyle.regular12White,)
-                              )
-                            ],
-                          ),
-                        )
-                      ],
+                    child: SizedBox(
+                      width: ResponsiveLayout.isDesktop(context) || ResponsiveLayout.isTablet(context) ? 250 : null,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Penelitian Lapangan", style: AppTextStyle.bold14Purple,),
+                                const SizedBox(height: 8,),
+                                Text("Daftar hasil dari penelitian lapangan,\nbisa diakses siapapun!", style: AppTextStyle.regular12Black,),
+                                const SizedBox(height: 14,),
+                                BaseButton(
+                                    buttonStyle: AppButtonStyle.purpleFilled,
+                                    onPressed: () {
+                                      AppNavigation.instance.push(page: const ResearchListScreen());
+                                    },
+                                    child: Text("Periksa", style: AppTextStyle.regular12White,)
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sipp_mobile/component/other/responsive_layout.dart';
 import 'package:sipp_mobile/component/other/shimmer.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/provider/research/research_detail_provider.dart';
@@ -18,28 +19,25 @@ class ResearchDetail extends StatelessWidget {
 
   const ResearchDetail({Key? key, required this.researchId}) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-
-    void showImageDetail(String? imageUrl, int? total) {
-      showModalBottomSheet(context: context, builder: (context) {
-        return SizedBox(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Lihat Gambar", style: AppTextStyle.bold14Black,),
-                const SizedBox(height: 16,),
-                SizedBox(
-                  height: 250,
+  void showImageDetail(String? imageUrl, int? total, BuildContext context) {
+    showModalBottomSheet(context: context, builder: (context) {
+      return SizedBox(
+        width: double.infinity,
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text("Lihat Gambar", style: AppTextStyle.bold14Black,),
+              const SizedBox(height: 16,),
+              Expanded(
+                child: SizedBox(
                   width: double.infinity,
                   child: InteractiveViewer(
                     panEnabled: true,
                     minScale: 0.5,
-                    maxScale: 4,
+                    maxScale: 6,
                     child: CachedNetworkImage(
                       imageUrl: imageUrl ?? "-",
                       fit: BoxFit.fitHeight,
@@ -53,16 +51,20 @@ class ResearchDetail extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 16,),
-                Text("Total Objek", style: AppTextStyle.regular12Grey,),
-                const SizedBox(height: 8,),
-                Text(total.toString() , style: AppTextStyle.regular14Black,)
-              ],
-            ),
+              ),
+              const SizedBox(height: 16,),
+              Text("Total Objek", style: AppTextStyle.regular12Grey,),
+              const SizedBox(height: 8,),
+              Text(total.toString() , style: AppTextStyle.regular14Black,)
+            ],
           ),
-        );
-      },);
-    }
+        ),
+      );
+    },);
+  }
+
+  @override
+  Widget build(BuildContext context) {
 
     return ChangeNotifierProvider(
       create: (context) {
@@ -94,9 +96,9 @@ class ResearchDetail extends StatelessWidget {
                     child: InteractiveViewer(
                       panEnabled: true,
                       minScale: 0.5,
-                      maxScale: 4,
+                      maxScale: 6,
                       child: CachedNetworkImage(
-                        height: 280,
+                        height: 500,
                         width: double.infinity,
                         fit: BoxFit.fitHeight,
                         imageUrl: provider.detailResponse?.baseResourcePath ?? "",
@@ -158,7 +160,7 @@ class ResearchDetail extends StatelessWidget {
                 Text("(Klik pada gambar untuk perbesar)", style: AppTextStyle.regular12Grey,),
                 const SizedBox(height: 20,),
                 SizedBox(
-                  height: 106,
+                  height: 256,
                   child: Consumer<ResearchDetailProvider>(
                     builder: (context, provider, child) {
                       return ListView.builder(
@@ -178,18 +180,22 @@ class ResearchDetail extends StatelessWidget {
                                 const SizedBox(width: 10,),
                                 GestureDetector(
                                   onTap: () {
-                                    showImageDetail(provider.detailResponse?.regions?[index].regionResourcePath, provider.detailResponse?.regions?[index].countObject);
+                                    showImageDetail(provider.detailResponse?.regions?[index].regionResourcePath, provider.detailResponse?.regions?[index].countObject, context);
                                   },
-                                  child: CachedNetworkImage(
-                                      imageUrl: provider.detailResponse?.regions?[index].regionResourcePath ?? "-",
-                                    fit: BoxFit.fitHeight,
-                                    placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
-                                    errorWidget: (context, url, error) {
-                                      return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
-                                          color: Colors.grey.shade300
-                                      ),
-                                        child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
-                                    },
+                                  child: SizedBox(
+                                    height: 256,
+                                    width: 256,
+                                    child: CachedNetworkImage(
+                                        imageUrl: provider.detailResponse?.regions?[index].regionResourcePath ?? "-",
+                                      fit: BoxFit.fitHeight,
+                                      placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
+                                      errorWidget: (context, url, error) {
+                                        return Container(height: 256, width: 256, decoration: BoxDecoration(
+                                            color: Colors.grey.shade300
+                                        ),
+                                          child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
+                                      },
+                                    ),
                                   ),
                                 )
                               ],
