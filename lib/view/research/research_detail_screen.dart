@@ -80,6 +80,8 @@ class ResearchDetail extends StatelessWidget {
       },
       child: Scaffold(
         appBar: AppBar(
+          scrolledUnderElevation: 0.0,
+          elevation: 0.0,
           backgroundColor: Colors.white,
           title: Text("Detail Penelitian", style: AppTextStyle.bold14),
         ),

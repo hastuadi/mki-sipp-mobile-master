@@ -53,6 +53,8 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        elevation: 0.0,
       title: Text("Pendaftaran", style: AppTextStyle.bold14,),
       ),
       backgroundColor: Colors.white,

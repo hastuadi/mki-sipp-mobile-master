@@ -20,6 +20,8 @@ class ResearchListScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        scrolledUnderElevation: 0.0,
+        elevation: 0.0,
         title: Text("Kategori Penelitian", style: AppTextStyle.bold14),
       ),
       body: ListView.separated(
