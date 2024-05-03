@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sipp_mobile/util/app_util.dart';
 
 import '../../../component/other/responsive_layout.dart';
 import '../../../constant/colors.dart';
@@ -25,8 +26,8 @@ class FrameImage extends StatelessWidget {
         child: Center(
           child: InkWell(
             borderRadius: BorderRadius.circular(16),
-            onTap: () {
-
+            onTap: () async {
+              await AppUtil.instance.pickImage();
             },
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

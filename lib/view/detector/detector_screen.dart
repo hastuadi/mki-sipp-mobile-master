@@ -62,7 +62,10 @@ class DetectorScreen extends StatelessWidget {
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
+                                  Text("Pengaturan Tambahan", style: AppTextStyle.bold18Black,),
+                                  const SizedBox(height: 16,),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                     children: [
