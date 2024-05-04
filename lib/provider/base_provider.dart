@@ -4,7 +4,7 @@ class BaseProvider extends ChangeNotifier {
 
   bool isDisposed = false;
 
-  bool _isLoading = true;
+  bool _isLoading = false;
   bool get isLoading => _isLoading;
 
   loading(bool state) {

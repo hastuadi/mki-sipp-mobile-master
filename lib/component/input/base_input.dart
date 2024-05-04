@@ -63,6 +63,7 @@ class BaseInput extends StatelessWidget {
             color: Colors.red
           ),
         ),
+        counterText: '',
         errorStyle: AppTextStyle.regular12Red,
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),

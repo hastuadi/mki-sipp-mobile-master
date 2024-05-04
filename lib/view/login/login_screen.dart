@@ -106,7 +106,7 @@ class _LoginState extends State<Login> {
                         Text("SIPP", style: AppTextStyle.bold24Black,),
                         Text("Sistem Informasi Penunjang Penelitian", style: AppTextStyle.regular14Black,),
                         const SizedBox(height: 24,),
-                        BaseInput(controller: _emailController, hint: "Nama Lengkap"),
+                        BaseInput(controller: _emailController, hint: "Email"),
                         const SizedBox(height: 16,),
                         BaseInput(controller: _passwordController, hint: "Password", obscureText: true,),
                       ],

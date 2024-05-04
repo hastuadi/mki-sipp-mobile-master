@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:image_picker/image_picker.dart';
 
 class AppUtil {
@@ -9,10 +11,10 @@ class AppUtil {
     return instance;
   }
 
-  Future<String?> pickImage() async {
+  Future<Uint8List?> pickImage() async {
     try {
       final XFile? image = await ImagePicker().pickImage(source: ImageSource.gallery);
-      return image?.path;
+      return image?.readAsBytes();
     } catch (e) {
       throw Exception();
     }
