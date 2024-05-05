@@ -1,7 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sipp_mobile/component/other/responsive_layout.dart';
 import 'package:sipp_mobile/component/other/shimmer.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/provider/research/research_detail_provider.dart';

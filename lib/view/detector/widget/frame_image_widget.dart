@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/provider/detector/detector_provider.dart';
 import 'package:sipp_mobile/util/app_util.dart';
+import 'package:sipp_mobile/view/detector/widget/detector_handler.dart';
 
 import '../../../component/other/responsive_layout.dart';
 import '../../../constant/textstyles.dart';
@@ -39,12 +40,18 @@ class FrameImage extends StatelessWidget {
                   right: 0,
                   left: 0,
                   child: InkWell(
-                    splashColor: Colors.blue,
-                    focusColor: Colors.red,
-                    hoverColor: Colors.orange,
                     onTap: !provider.isLoading ? () async {
-                      Uint8List? imgPath = await AppUtil.instance.pickImage();
-                      provider.setImagePath(imgPath);
+                      if(provider.detectionResultResponse == null) {
+                        Uint8List? imgPath = await AppUtil.instance.pickImage();
+                        provider.setImagePath(imgPath);
+                      } else {
+                        /// TODO HIT REMOVE IMAGE ENDPOINT
+                        bool cancel = await DetectorHandler.showCancelConfirmation();
+                        if(cancel) {
+                          Uint8List? imgPath = await AppUtil.instance.pickImage();
+                          provider.setImagePath(imgPath);
+                        }
+                      }
                     } : null,
                     child: Container(
                       height: 40,

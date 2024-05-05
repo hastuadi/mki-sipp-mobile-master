@@ -60,7 +60,6 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
-        // fit: StackFit.expand,
         children: [
           Positioned(
             left: -100,

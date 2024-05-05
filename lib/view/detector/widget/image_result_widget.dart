@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/model/osm_model.dart';
 import 'package:sipp_mobile/view/detector/widget/detector_handler.dart';
 
+import '../../../component/other/shimmer.dart';
 import '../../../constant/colors.dart';
 import '../../../constant/textstyles.dart';
 import '../../../provider/detector/detector_provider.dart';
@@ -20,7 +22,7 @@ class ImageResultWidget extends StatelessWidget {
       builder: (context, provider, child) => Visibility(
           visible: provider.isLoading == true,
           replacement: Visibility(
-            visible: provider.pic.isNotEmpty && !provider.isLoading,
+            visible: (provider.detectionResultResponse?.regions?.isNotEmpty ?? false) && !provider.isLoading,
             child: Column(
               children: [
                 const SizedBox(height: 24,),
@@ -42,13 +44,39 @@ class ImageResultWidget extends StatelessWidget {
                       SizedBox(
                         height: 150,
                         child: ListView.builder(
-                          itemCount: 3,
+                          itemCount: provider.detectionResultResponse?.regions?.length,
                           scrollDirection: Axis.horizontal,
                           itemBuilder: (context, index) {
-                            return Row(
+                            return Stack(
+                              clipBehavior: Clip.none,
+                              fit: StackFit.loose,
                               children: [
-                                const SizedBox(width: 14,),
-                                Image.asset("assets/images/general/example_image_${index+1}.jpg"),
+                                Row(
+                                  children: [
+                                    const SizedBox(width: 14,),
+                                    CachedNetworkImage(
+                                      imageUrl: provider.detectionResultResponse?.regions?[index].regionResourcePath ?? "-",
+                                      fit: BoxFit.fitHeight,
+                                      placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
+                                      errorWidget: (context, url, error) {
+                                        return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
+                                            color: Colors.grey.shade300
+                                        ),
+                                          child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
+                                      },
+                                    )
+                                  ],
+                                ),
+                                Positioned(
+                                  top: -10,
+                                  right: -10,
+                                  child: InkWell(
+                                    onTap: () {
+                                      /// TODO HIT DELETE IMAGE API
+                                    },
+                                    child: const Icon(Icons.remove_circle_rounded, size: 32, color: Colors.red,),
+                                  ),
+                                )
                               ],
                             );
                           },

@@ -1,4 +1,3 @@
-import 'package:flutter_map/flutter_map.dart';
 import 'package:sipp_mobile/data/base_response.dart';
 
 import 'object_result_model.dart';

@@ -1,9 +1,14 @@
 import 'dart:typed_data';
 
+import 'package:sipp_mobile/model/detection_result_response.dart';
 import 'package:sipp_mobile/model/osm_model.dart';
 import 'package:sipp_mobile/provider/base_provider.dart';
+import 'package:sipp_mobile/repository/detector/detector_repo.dart';
 
 class DetectorProvider extends BaseProvider {
+
+  DetectorRepo repo;
+  DetectorProvider(this.repo);
 
   Uint8List? _imagePath;
   Uint8List? get imagePath =>_imagePath;
@@ -11,10 +16,14 @@ class DetectorProvider extends BaseProvider {
   int _maxRegion = 1;
   int get maxRegion => _maxRegion;
 
-  List<bool> pic = [];
+  DetectionResultResponse? _detectionResultResponse;
+  DetectionResultResponse? get detectionResultResponse => _detectionResultResponse;
 
   OpenStreetMapModel? _selectedLocation;
   OpenStreetMapModel? get selectedLocation => _selectedLocation;
+
+  Object? _detectionError;
+  Object? get detectionError => _detectionError;
 
   setImagePath(Uint8List? path) {
     loading(true);
@@ -37,19 +46,22 @@ class DetectorProvider extends BaseProvider {
   }
 
   Future<void> detect() async {
-    loading(true);
-    // hit detection_v2
-    Future.delayed(const Duration(seconds: 2), () {
-      pic.add(true);
+    try {
+      loading(true);
+      _detectionResultResponse = await repo.detection(_maxRegion, _imagePath!);
       loading(false);
-    });
+    } catch (e) {
+      _detectionError = e;
+      _detectionResultResponse = null;
+      loading(false);
+    }
   }
 
   reset() {
     _maxRegion = 1;
     _imagePath = null;
     _selectedLocation = null;
-    pic.clear();
+    _detectionResultResponse = null;
     notifyListeners();
   }
 

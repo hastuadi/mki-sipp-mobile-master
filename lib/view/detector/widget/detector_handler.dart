@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/provider/detector/detector_provider.dart';
 import 'package:sipp_mobile/provider/detector/osm_provider.dart';
+import 'package:sipp_mobile/repository/detector/detector_repo.dart';
 import 'package:sipp_mobile/repository/osm/osm_repo.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
 import 'package:sipp_mobile/view/detector/widget/region_field_widget.dart';
@@ -22,7 +23,7 @@ class DetectorHandler {
       context: AppNavigation.instance.getContext()!,
       builder: (bottomSheetContext) {
         return ChangeNotifierProvider(
-          create: (context) => DetectorProvider(),
+          create: (context) => DetectorProvider(locator<DetectorRepo>()),
           child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Column(
@@ -90,6 +91,7 @@ class DetectorHandler {
                     Expanded(
                       child: BaseButton(
                         onPressed: () {
+                          /// TODO HIT DELETE IMAGE ON STORAGE
                           AppNavigation.instance.pop(true);
                         },
                         buttonStyle: AppButtonStyle.filled,

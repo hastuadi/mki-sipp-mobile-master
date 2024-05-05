@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sipp_mobile/component/other/snackbar.dart';
 import 'package:sipp_mobile/constant/colors.dart';
+import 'package:sipp_mobile/injector.dart';
 import 'package:sipp_mobile/provider/detector/detector_provider.dart';
+import 'package:sipp_mobile/repository/detector/detector_repo.dart';
 import 'package:sipp_mobile/view/detector/widget/detector_handler.dart';
 import 'package:sipp_mobile/view/detector/widget/frame_image_widget.dart';
 import 'package:sipp_mobile/view/detector/widget/image_example_widget.dart';
@@ -17,7 +20,7 @@ class DetectorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => DetectorProvider(),
+      create: (context) => DetectorProvider(locator<DetectorRepo>()),
       child: const DetectorScreenBody(),
     );
   }
@@ -131,14 +134,18 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                         Expanded(
                           child: Consumer<DetectorProvider>(
                             builder: (context, provider, child) => BaseButton(
-                              onPressed: !provider.isLoading && provider.selectedLocation == null && provider.pic.isEmpty ? () async {
-                                context.read<DetectorProvider>().detect();
-                              } : !provider.isLoading && provider.selectedLocation != null && provider.pic.isNotEmpty ? () {
-                                // save form
-                                // hit add_master_image_metadata
+                              onPressed: !provider.isLoading && provider.selectedLocation == null && (provider.detectionResultResponse == null) ? () async {
+                                await context.read<DetectorProvider>().detect();
+                                if(provider.detectionResultResponse == null && provider.detectionError != null) {
+                                  AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
+                                } else if (provider.detectionResultResponse?.code != 200 && provider.detectionError == null) {
+                                  AppSnackBar.instance.show(provider.detectionResultResponse?.message);
+                                }
+                              } : !provider.isLoading && provider.selectedLocation != null && (provider.detectionResultResponse?.regions?.isNotEmpty ?? false) ? () {
+                                /// TODO HIT add_master_image_metadata
                               } : null,
                               buttonStyle: AppButtonStyle.filled,
-                              child: Text(provider.pic.isNotEmpty ? "Simpan" : "Deteksi", style: AppTextStyle.regular14White,),
+                              child: Text((provider.detectionResultResponse != null) ? "Simpan" : "Deteksi", style: AppTextStyle.regular14White,),
                             ),
                           ),
                         ),

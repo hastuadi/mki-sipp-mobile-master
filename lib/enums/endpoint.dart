@@ -1,5 +1,6 @@
 enum Endpoint {
-  login, createUser, logout, researchList, researchResult
+  login, createUser, logout, researchList, researchResult,
+  detectionImage
 }
 
 extension RawString on Endpoint {
@@ -15,6 +16,8 @@ extension RawString on Endpoint {
         return "/image/research_list";
       case Endpoint.researchResult:
         return "/image/detection_result";
+      case Endpoint.detectionImage:
+        return "/image/detection_v2";
     }
   }
 }
