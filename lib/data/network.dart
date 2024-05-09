@@ -57,7 +57,7 @@ class Network {
       flutter_http.MultipartFile imageFile = flutter_http.MultipartFile.fromBytes(
         "image",
         imgPath,
-          filename: _generateRandomFileName()
+          filename: "${_generateRandomFileName()}.jpg"
       );
       request.files.add(imageFile);
       var response = await request.send();

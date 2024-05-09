@@ -22,7 +22,10 @@ class OSMProvider extends BaseProvider {
         for (final result in response) {
           final res = OpenStreetMapModel(displayname: result['display_name'],
               lat: double.parse(result['lat']),
-              lon: double.parse(result['lon']));
+              lon: double.parse(result['lon']),
+            province: result["address"]["state"],
+              name: result['name']
+          );
 
           _location?.add(res);
         }

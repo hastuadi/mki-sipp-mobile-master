@@ -141,8 +141,16 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                                 } else if (provider.detectionResultResponse?.code != 200 && provider.detectionError == null) {
                                   AppSnackBar.instance.show(provider.detectionResultResponse?.message);
                                 }
-                              } : !provider.isLoading && provider.selectedLocation != null && (provider.detectionResultResponse?.regions?.isNotEmpty ?? false) ? () {
-                                /// TODO HIT add_master_image_metadata
+                              } : !provider.isLoading && provider.selectedLocation != null && (provider.detectionResultResponse?.regions?.isNotEmpty ?? false) ? () async {
+                                DetectorProvider provider = context.read<DetectorProvider>();
+                                await provider.save();
+                                if(provider.saveResponse == null && provider.detectionError != null) {
+                                  AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
+                                } else if (provider.saveResponse?.code != 200 && provider.detectionError == null) {
+                                  AppSnackBar.instance.show(provider.saveResponse?.message);
+                                } else {
+                                  await provider.reset();
+                                }
                               } : null,
                               buttonStyle: AppButtonStyle.filled,
                               child: Text((provider.detectionResultResponse != null) ? "Simpan" : "Deteksi", style: AppTextStyle.regular14White,),

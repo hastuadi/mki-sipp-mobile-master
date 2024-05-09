@@ -2,8 +2,10 @@ class OpenStreetMapModel {
   final String displayname;
   final double lat;
   final double lon;
+  final String province;
+  final String name;
 
-  OpenStreetMapModel({required this.displayname, required this.lat, required this.lon});
+  OpenStreetMapModel({required this.displayname, required this.lat, required this.lon, required this.province, required this.name});
 
   @override
   String toString() {
