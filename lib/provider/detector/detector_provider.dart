@@ -86,11 +86,17 @@ class DetectorProvider extends BaseProvider {
     }
   }
 
-  Future<void> delete(String path, bool basePic) async {
+  Future<void> delete(String path, bool basePic, {int? index}) async {
     try {
       loading(true);
       String url = "${Endpoint.deleteImage.getString}/$path?is_base=${basePic ? "True" : "False"}";
       _deleteResponse = await repo.delete(url);
+      if(!basePic) {
+        _detectionResultResponse?.regions?.removeAt(index!);
+        if((_detectionResultResponse?.regions?.isEmpty ?? false)) {
+          reset();
+        }
+      }
       loading(false);
     } catch (e) {
       _detectionError = e;

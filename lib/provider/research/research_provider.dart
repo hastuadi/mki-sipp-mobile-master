@@ -48,7 +48,7 @@ class ResearchProvider extends BaseProvider {
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(_researchListResponse?.data?[i].location ?? "", style: AppTextStyle.regular6Black,),
+                        Expanded(child: Text(_researchListResponse?.data?[i].location ?? "", style: AppTextStyle.regular6Black,)),
                         Image.asset("assets/images/general/map-marker-icon.png", width: 24, height: 24,),
                       ],
                     ),
