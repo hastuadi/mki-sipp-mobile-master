@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/model/osm_model.dart';
 import 'package:sipp_mobile/view/detector/widget/detector_handler.dart';
+import 'package:sipp_mobile/view/research/research_handler.dart';
 
 import '../../../component/other/shimmer.dart';
 import '../../../constant/colors.dart';
@@ -54,16 +55,24 @@ class ImageResultWidget extends StatelessWidget {
                                 Row(
                                   children: [
                                     const SizedBox(width: 14,),
-                                    CachedNetworkImage(
-                                      imageUrl: provider.detectionResultResponse?.regions?[index].regionResourcePath ?? "-",
-                                      fit: BoxFit.fitHeight,
-                                      placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
-                                      errorWidget: (context, url, error) {
-                                        return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
-                                            color: Colors.grey.shade300
-                                        ),
-                                          child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
-                                      },
+                                    InkWell(
+                                      onTap: provider.detectionResultResponse?.regions?[index].regionResourcePath != null ? () {
+                                        ResearchHandler.instance.showImageDetail(
+                                            provider.detectionResultResponse?.regions?[index].regionResourcePath,
+                                            provider.detectionResultResponse?.regions?[index].countObject,
+                                            0);
+                                      } : null,
+                                      child: CachedNetworkImage(
+                                        imageUrl: provider.detectionResultResponse?.regions?[index].regionResourcePath ?? "-",
+                                        fit: BoxFit.fitHeight,
+                                        placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
+                                        errorWidget: (context, url, error) {
+                                          return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
+                                              color: Colors.grey.shade300
+                                          ),
+                                            child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
+                                        },
+                                      ),
                                     )
                                   ],
                                 ),

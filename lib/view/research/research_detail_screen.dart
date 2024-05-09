@@ -5,6 +5,7 @@ import 'package:sipp_mobile/component/other/shimmer.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/provider/research/research_detail_provider.dart';
 import 'package:sipp_mobile/repository/research/research_repo.dart';
+import 'package:sipp_mobile/view/research/research_handler.dart';
 
 import '../../constant/textstyles.dart';
 import '../../injector.dart';
@@ -18,49 +19,6 @@ class ResearchDetail extends StatelessWidget {
 
   const ResearchDetail({Key? key, required this.researchId}) : super(key: key);
 
-  void showImageDetail(String? imageUrl, int? total, BuildContext context) {
-    showModalBottomSheet(context: context, builder: (context) {
-      return SizedBox(
-        width: double.infinity,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Lihat Gambar", style: AppTextStyle.bold14Black,),
-              const SizedBox(height: 16,),
-              Expanded(
-                child: SizedBox(
-                  width: double.infinity,
-                  child: InteractiveViewer(
-                    panEnabled: true,
-                    minScale: 0.5,
-                    maxScale: 6,
-                    child: CachedNetworkImage(
-                      imageUrl: imageUrl ?? "-",
-                      fit: BoxFit.fitHeight,
-                      placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
-                      errorWidget: (context, url, error) {
-                        return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
-                            color: Colors.grey.shade300
-                        ),
-                          child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
-                      },
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16,),
-              Text("Total Objek", style: AppTextStyle.regular12Grey,),
-              const SizedBox(height: 8,),
-              Text(total.toString() , style: AppTextStyle.regular14Black,)
-            ],
-          ),
-        ),
-      );
-    },);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -141,18 +99,39 @@ class ResearchDetail extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Total Objek", style: AppTextStyle.regular12Grey,),
-                        Consumer<ResearchDetailProvider>(
-                            builder: (context, provider, child) {
-                              return Visibility(
-                                visible: !provider.isLoading,
-                                  replacement: const AppShimmer(height: 20, width: 100),
-                                  child: Text(provider.detailResponse?.totalObject.toString() ?? "-", style: AppTextStyle.regular14Black,)
-                              );
-                            },
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Total Objek", style: AppTextStyle.regular12Grey,),
+                            Consumer<ResearchDetailProvider>(
+                                builder: (context, provider, child) {
+                                  return Visibility(
+                                    visible: !provider.isLoading,
+                                      replacement: const AppShimmer(height: 20, width: 100),
+                                      child: Text(provider.detailResponse?.totalObject.toString() ?? "-", style: AppTextStyle.regular14Black,)
+                                  );
+                                },
+                            ),
+                          ],
                         ),
+                        const SizedBox(height: 24,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Total Luasan", style: AppTextStyle.regular12Grey,),
+                            Consumer<ResearchDetailProvider>(
+                              builder: (context, provider, child) {
+                                return Visibility(
+                                    visible: !provider.isLoading,
+                                    replacement: const AppShimmer(height: 20, width: 100),
+                                    child: Text(provider.detailResponse?.totalObject.toString() ?? "-", style: AppTextStyle.regular14Black,)
+                                );
+                              },
+                            ),
+                          ],
+                        )
                       ],
-                    )
+                    ),
                   ],
                 ),
                 const SizedBox(height: 24,),
@@ -181,7 +160,7 @@ class ResearchDetail extends StatelessWidget {
                                 const SizedBox(width: 10,),
                                 GestureDetector(
                                   onTap: () {
-                                    showImageDetail(provider.detailResponse?.regions?[index].regionResourcePath, provider.detailResponse?.regions?[index].countObject, context);
+                                    ResearchHandler.instance.showImageDetail(provider.detailResponse?.regions?[index].regionResourcePath, provider.detailResponse?.regions?[index].countObject, 0);
                                   },
                                   child: SizedBox(
                                     height: 256,

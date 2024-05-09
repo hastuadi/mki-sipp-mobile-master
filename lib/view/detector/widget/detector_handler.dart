@@ -91,7 +91,6 @@ class DetectorHandler {
                     Expanded(
                       child: BaseButton(
                         onPressed: () {
-                          /// TODO HIT DELETE IMAGE ON STORAGE
                           AppNavigation.instance.pop(true);
                         },
                         buttonStyle: AppButtonStyle.filled,

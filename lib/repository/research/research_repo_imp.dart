@@ -36,7 +36,6 @@ class ResearchRepoImp implements ResearchRepo {
       Map<String, dynamic>? response = await service.post(Endpoint.researchResult.getString, body, headers: headers);
       return ResearchDetailResponse().fromJson(response);
     } catch (e) {
-      print("ERR ${e.toString()}");
       rethrow;
     }
   }

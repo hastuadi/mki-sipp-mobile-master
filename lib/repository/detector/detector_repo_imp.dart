@@ -46,4 +46,19 @@ class DetectorRepoImp implements DetectorRepo {
     }
   }
 
+  @override
+  Future<BaseResponse?> delete(String path) async {
+    try {
+      String? token = await CacheManager.instance.getUserToken();
+      Map<String, String> header = {
+        "Accept": "*/*",
+        "Authorization": "Bearer $token"
+      };
+      final Map<String, dynamic>? response = await service.delete(path, headers: header);
+      return BaseResponse.fromJson(response);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
 }

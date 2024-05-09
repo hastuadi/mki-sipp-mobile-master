@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:sipp_mobile/data/base_response.dart';
+import 'package:sipp_mobile/enums/endpoint.dart';
 import 'package:sipp_mobile/model/detection_result_response.dart';
 import 'package:sipp_mobile/model/osm_model.dart';
 import 'package:sipp_mobile/model/request/save_result_request.dart';
@@ -26,6 +27,9 @@ class DetectorProvider extends BaseProvider {
 
   BaseResponse? _saveResponse;
   BaseResponse? get saveResponse => _saveResponse;
+
+  BaseResponse? _deleteResponse;
+  BaseResponse? get deleteResponse => _deleteResponse;
 
   Object? _detectionError;
   Object? get detectionError => _detectionError;
@@ -73,12 +77,24 @@ class DetectorProvider extends BaseProvider {
           _detectionResultResponse?.totalObject ?? 0,
           _detectionResultResponse?.regions ?? []
       );
-      print(body.toJson());
       _saveResponse = await repo.saveInformation(body);
       loading(false);
     } catch (e) {
       _detectionError = e;
       _saveResponse = null;
+      loading(false);
+    }
+  }
+
+  Future<void> delete(String path, bool basePic) async {
+    try {
+      loading(true);
+      String url = "${Endpoint.deleteImage.getString}/$path?is_base=${basePic ? "True" : "False"}";
+      _deleteResponse = await repo.delete(url);
+      loading(false);
+    } catch (e) {
+      _detectionError = e;
+      _deleteResponse = null;
       loading(false);
     }
   }

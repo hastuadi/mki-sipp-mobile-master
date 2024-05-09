@@ -117,13 +117,26 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
-                          child: Selector<DetectorProvider, bool>(
-                            selector: (p0, provider) => provider.isLoading,
-                            builder: (context, loading, child) => BaseButton(
-                              onPressed: !loading ? () async {
+                          child: Consumer<DetectorProvider>(
+                            builder: (context, provider, child) => BaseButton(
+                              onPressed: (!provider.isLoading && (provider.imagePath != null || provider.detectionResultResponse != null)) ? () async {
                                 DetectorProvider provider = context.read<DetectorProvider>();
                                 bool cancel = await DetectorHandler.showCancelConfirmation();
-                                if(cancel) provider.reset();
+                                if(cancel) {
+                                  if(provider.detectionResultResponse != null) {
+                                    String path = "${provider.detectionResultResponse?.baseResourceFolder}/${provider.detectionResultResponse?.filename}";
+                                    await provider.delete(path,true);
+                                    if(provider.deleteResponse == null && provider.detectionError != null) {
+                                      AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
+                                    } else if (provider.deleteResponse?.code != 200 && provider.detectionError == null) {
+                                      AppSnackBar.instance.show(provider.deleteResponse?.code.toString());
+                                    } else {
+                                      provider.reset();
+                                    }
+                                  } else {
+                                    provider.reset();
+                                  }
+                                }
                               } : null,
                               buttonStyle: AppButtonStyle.redFilled,
                               child: Text("Ulangi", style: AppTextStyle.regular14White,),
@@ -134,22 +147,22 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                         Expanded(
                           child: Consumer<DetectorProvider>(
                             builder: (context, provider, child) => BaseButton(
-                              onPressed: !provider.isLoading && provider.selectedLocation == null && (provider.detectionResultResponse == null) ? () async {
+                              onPressed: !provider.isLoading && provider.selectedLocation == null && (provider.detectionResultResponse == null) && provider.imagePath != null ? () async {
                                 await context.read<DetectorProvider>().detect();
                                 if(provider.detectionResultResponse == null && provider.detectionError != null) {
                                   AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                                 } else if (provider.detectionResultResponse?.code != 200 && provider.detectionError == null) {
-                                  AppSnackBar.instance.show(provider.detectionResultResponse?.message);
+                                  AppSnackBar.instance.show(provider.detectionResultResponse?.code.toString());
                                 }
-                              } : !provider.isLoading && provider.selectedLocation != null && (provider.detectionResultResponse?.regions?.isNotEmpty ?? false) ? () async {
+                              } : !provider.isLoading && provider.selectedLocation != null && (provider.detectionResultResponse?.regions?.isNotEmpty ?? false) && provider.imagePath != null ? () async {
                                 DetectorProvider provider = context.read<DetectorProvider>();
                                 await provider.save();
                                 if(provider.saveResponse == null && provider.detectionError != null) {
                                   AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                                 } else if (provider.saveResponse?.code != 200 && provider.detectionError == null) {
-                                  AppSnackBar.instance.show(provider.saveResponse?.message);
+                                  AppSnackBar.instance.show(provider.saveResponse?.code.toString());
                                 } else {
-                                  await provider.reset();
+                                  provider.reset();
                                 }
                               } : null,
                               buttonStyle: AppButtonStyle.filled,

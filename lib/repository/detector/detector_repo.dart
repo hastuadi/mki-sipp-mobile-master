@@ -8,4 +8,5 @@ import '../../model/detection_result_response.dart';
 abstract interface class DetectorRepo {
   Future<DetectionResultResponse?> detection(int maxRegion, Uint8List imgPath);
   Future<BaseResponse?> saveInformation(SaveResultRequest body);
+  Future<BaseResponse?> delete(String path);
 }

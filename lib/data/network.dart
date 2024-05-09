@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
@@ -36,11 +35,24 @@ class Network {
     }
   }
 
+  Future<Map<String, dynamic>?> delete(String url, {Map<String, String>? headers}) async {
+    Uri endpoint = Uri.parse(AppConstant.baseUrl+url);
+    try {
+      final response = await http.delete(endpoint, headers: headers).timeout(const Duration(seconds: 60), onTimeout: () {
+        return flutter_http.Response("Request Time Out", 504);
+      });
+      Map<String, dynamic> responseJson = jsonDecode(response.body);
+      return responseJson;
+    } catch (e) {
+      throw Exception('Something went wrong ${e.toString()}');
+    }
+  }
+
   String _generateRandomFileName() {
-    const _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
-    Random _rnd = Random();
+    const chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+    Random rnd = Random();
     return String.fromCharCodes(Iterable.generate(
-        8, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+        8, (_) => chars.codeUnitAt(rnd.nextInt(chars.length))));
   }
 
   Future<Map<String, dynamic>?> postMultipartDetection(String url, int maxRegion, Uint8List imgPath, {Map<String, String>? headers}) async {

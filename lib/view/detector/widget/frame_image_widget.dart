@@ -7,6 +7,7 @@ import 'package:sipp_mobile/util/app_util.dart';
 import 'package:sipp_mobile/view/detector/widget/detector_handler.dart';
 
 import '../../../component/other/responsive_layout.dart';
+import '../../../component/other/snackbar.dart';
 import '../../../constant/textstyles.dart';
 
 class FrameImage extends StatelessWidget {
@@ -45,11 +46,19 @@ class FrameImage extends StatelessWidget {
                         Uint8List? imgPath = await AppUtil.instance.pickImage();
                         provider.setImagePath(imgPath);
                       } else {
-                        /// TODO HIT REMOVE IMAGE ENDPOINT
                         bool cancel = await DetectorHandler.showCancelConfirmation();
                         if(cancel) {
-                          Uint8List? imgPath = await AppUtil.instance.pickImage();
-                          provider.setImagePath(imgPath);
+                          String path = "${provider.detectionResultResponse?.baseResourceFolder}/${provider.detectionResultResponse?.filename}";
+                          await provider.delete(path,true);
+                          if(provider.deleteResponse == null && provider.detectionError != null) {
+                            AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
+                          } else if (provider.deleteResponse?.code != 200 && provider.detectionError == null) {
+                            AppSnackBar.instance.show(provider.deleteResponse?.code.toString());
+                          } else {
+                            provider.reset();
+                            Uint8List? imgPath = await AppUtil.instance.pickImage();
+                            provider.setImagePath(imgPath);
+                          }
                         }
                       }
                     } : null,

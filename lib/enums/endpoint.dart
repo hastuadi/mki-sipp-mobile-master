@@ -1,6 +1,6 @@
 enum Endpoint {
   login, createUser, logout, researchList, researchResult,
-  detectionImage, saveResult
+  detectionImage, saveResult, deleteImage
 }
 
 extension RawString on Endpoint {
@@ -20,6 +20,8 @@ extension RawString on Endpoint {
         return "/image/detection_v2";
       case Endpoint.saveResult:
         return "/image/add_master_image_metadata";
+      case Endpoint.deleteImage:
+        return "/image/delete_image";
     }
   }
 }
