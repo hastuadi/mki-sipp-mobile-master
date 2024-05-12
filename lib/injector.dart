@@ -14,6 +14,7 @@ import 'package:sipp_mobile/repository/osm/osm_repo.dart';
 import 'package:sipp_mobile/repository/osm/osm_repo_imp.dart';
 import 'package:sipp_mobile/repository/research/research_repo.dart';
 import 'package:sipp_mobile/repository/research/research_repo_imp.dart';
+import 'package:sipp_mobile/util/app_navigation.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -35,5 +36,7 @@ Future<void> registerDependency() async {
   locator.registerFactory<ResearchDetailProvider>(() => ResearchDetailProvider(locator<ResearchRepo>()));
   locator.registerFactory<OSMProvider>(() => OSMProvider(locator<OSMRepo>()));
   locator.registerFactory<DetectorProvider>(() => DetectorProvider(locator<DetectorRepo>()));
+
+  locator.registerFactory<AppNavigation>(() => AppNavigation());
 
 }

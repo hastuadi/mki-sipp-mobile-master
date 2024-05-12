@@ -73,7 +73,7 @@ class DetectorProvider extends BaseProvider {
           _detectionResultResponse?.extension ?? "",
           _detectionResultResponse?.filename ?? "",
           _detectionResultResponse?.baseResourcePath ?? "",
-          MetaData(_selectedLocation?.lat ?? 0.0, _selectedLocation?.lat ?? 0.0, _selectedLocation?.name ?? "", _selectedLocation?.province ?? ""),
+          MetaData(_selectedLocation?.lat ?? 0.0, _selectedLocation?.lon ?? 0.0, _selectedLocation?.name ?? "", _selectedLocation?.province ?? ""),
           _detectionResultResponse?.totalObject ?? 0,
           _detectionResultResponse?.regions ?? []
       );

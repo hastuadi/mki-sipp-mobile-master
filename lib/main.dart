@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/injector.dart';
 import 'package:sipp_mobile/provider/app_provider.dart';
@@ -46,17 +47,29 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'SIPP',
-      debugShowCheckedModeBanner: false,
+    return MaterialApp.router(
+      debugShowCheckedModeBanner: true,
+      routeInformationProvider: AppNavigation.instance.route.routeInformationProvider,
+      routeInformationParser: AppNavigation.instance.route.routeInformationParser,
+      routerDelegate: AppNavigation.instance.route.routerDelegate,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColor.primaryColor),
         fontFamily: 'Poppins',
         useMaterial3: true,
       ),
-      navigatorKey: AppNavigation.instance.navigatorKey,
-      home: const SplashBase(),
       builder: EasyLoading.init(),
     );
+    // return MaterialApp(
+    //   title: 'SIPP',
+    //   debugShowCheckedModeBanner: false,
+    //   theme: ThemeData(
+    //     colorScheme: ColorScheme.fromSeed(seedColor: AppColor.primaryColor),
+    //     fontFamily: 'Poppins',
+    //     useMaterial3: true,
+    //   ),
+    //   navigatorKey: AppNavigation.instance.navigatorKey,
+    //   builder: EasyLoading.init(),
+    //   routes: AppConstant.appRoute,
+    // );
   }
 }

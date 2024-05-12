@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-
 import 'package:latlong2/latlong.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/provider/research/research_provider.dart';
 import 'package:sipp_mobile/repository/research/research_repo.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
-import 'package:sipp_mobile/view/research/research_detail_screen.dart';
 
 import '../../constant/textstyles.dart';
 import '../../injector.dart';
 import '../../util/cache_manager.dart';
-import '../login/login_screen.dart';
 
 class ResearchLocationScreen extends StatelessWidget {
   const ResearchLocationScreen({Key? key}) : super(key: key);
@@ -26,7 +24,7 @@ class ResearchLocationScreen extends StatelessWidget {
             await provider.getResearchList();
             if (provider.researchListResponse?.code == 401) {
               await CacheManager.instance.deleteUserSession();
-              AppNavigation.instance.pushAndRemoveUntil(page: const LoginBase());
+              AppNavigation.instance.neglect(path: AppConstant.loginRoute);
             }
           });
           return provider;
@@ -97,7 +95,7 @@ class ResearchLocationBody extends StatelessWidget {
                       ),
                       child: InkWell(
                         onTap: () {
-                          AppNavigation.instance.push(page: ResearchDetail(researchId: provider.researchListResponse?.data?[index].masterImageId ?? 0,));
+                          AppNavigation.instance.push(path: "/research/detail/${provider.researchListResponse?.data?[index].masterImageId ?? 0}");
                         },
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),

@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/component/other/responsive_layout.dart';
 import 'package:sipp_mobile/component/other/snackbar.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/model/request/login_request.dart';
 import 'package:sipp_mobile/provider/auth/auth_provider.dart';
 import 'package:sipp_mobile/repository/auth/auth_repo.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
-import 'package:sipp_mobile/view/dashboard/bottom_nav_bar.dart';
-import 'package:sipp_mobile/view/register/register_screen.dart';
 
 import '../../component/button/base_button.dart';
 import '../../component/input/base_input.dart';
@@ -51,7 +50,7 @@ class _LoginState extends State<Login> {
     if(context.read<AuthProvider>().loginResponse?.code != 200) {
       AppSnackBar.instance.show(context.read<AuthProvider>().loginResponse?.message);
     } else {
-      AppNavigation.instance.pushReplacement(page: const DashboardBottomNavBar());
+      AppNavigation.instance.neglect(path: AppConstant.dashboardRoute);
     }
   }
 
@@ -144,7 +143,7 @@ class _LoginState extends State<Login> {
                 const SizedBox(width: 3,),
                 InkWell(
                     onTap: () {
-                      AppNavigation.instance.push(page: const RegisterBase());
+                      AppNavigation.instance.push(path: AppConstant.registerRoute);
                     },
                     child: Text("Daftar", style: AppTextStyle.bold14Primary,)
                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
-import 'package:sipp_mobile/view/research/research_location_screen.dart';
 
 import '../../constant/textstyles.dart';
 
@@ -11,8 +11,8 @@ class ResearchListScreen extends StatelessWidget {
     "Deteksi Objek",
   ];
 
-  static const List<Widget> actions = [
-    ResearchLocationScreen()
+  static List<String> actions = [
+    AppConstant.researchLocationRoute
   ];
 
   @override
@@ -29,7 +29,7 @@ class ResearchListScreen extends StatelessWidget {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                AppNavigation.instance.push(page: actions[index]);
+                AppNavigation.instance.push(path: actions[index]);
               },
               child: Padding(
                 padding: const EdgeInsets.all(16),

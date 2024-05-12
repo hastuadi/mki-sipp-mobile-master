@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:sipp_mobile/component/other/responsive_layout.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/enums/button_style.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
 import 'package:sipp_mobile/view/dashboard/widget/header_widget.dart';
 import 'package:sipp_mobile/view/dashboard/widget/menu_widget.dart';
-import 'package:sipp_mobile/view/detector/detector_screen.dart';
-import 'package:sipp_mobile/view/research/research_list_screen.dart';
 
 class HomePageScreen extends StatelessWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -39,7 +38,7 @@ class HomePageScreen extends StatelessWidget {
                               subtitle: "Daftar hasil dari penelitian lapangan,\nbisa diakses siapapun!",
                               buttonText: "Periksa",
                               buttonAction: () {
-                                AppNavigation.instance.push(page: const ResearchListScreen());
+                                AppNavigation.instance.push(path: AppConstant.researchListRoute);
                               },
                               backgroundColor: AppColor.purpleTransparent,
                               buttonColor: AppButtonStyle.purpleFilled
@@ -51,7 +50,7 @@ class HomePageScreen extends StatelessWidget {
                               subtitle: "Coba fitur untuk mendeteksi objek sekarang juga!",
                               buttonText: "Mulai Deteksi",
                               buttonAction: () {
-                                AppNavigation.instance.push(page: const DetectorScreen());
+                                AppNavigation.instance.push(path: AppConstant.researchDetectRoute);
                               },
                               backgroundColor: AppColor.deepBlue.withOpacity(0.2),
                               buttonColor: AppButtonStyle.deepBlueFilled
@@ -66,7 +65,7 @@ class HomePageScreen extends StatelessWidget {
                               subtitle: "Daftar hasil dari penelitian lapangan,\nbisa diakses siapapun!",
                               buttonText: "Periksa",
                               buttonAction: () {
-                                AppNavigation.instance.push(page: const ResearchListScreen());
+                                AppNavigation.instance.push(path: AppConstant.researchListRoute);
                               },
                               backgroundColor: AppColor.purpleTransparent,
                               buttonColor: AppButtonStyle.purpleFilled
@@ -78,7 +77,7 @@ class HomePageScreen extends StatelessWidget {
                               subtitle: "Coba fitur untuk mendeteksi objek sekarang juga!",
                               buttonText: "Mulai Deteksi",
                               buttonAction: () {
-                                AppNavigation.instance.push(page: const DetectorScreen());
+                                AppNavigation.instance.push(path: AppConstant.researchDetectRoute);
                               },
                               backgroundColor: AppColor.deepBlue.withOpacity(0.2),
                               buttonColor: AppButtonStyle.deepBlueFilled

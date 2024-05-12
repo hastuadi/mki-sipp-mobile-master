@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:sipp_mobile/component/button/base_button.dart';
 import 'package:sipp_mobile/component/input/base_input.dart';
 import 'package:sipp_mobile/component/other/snackbar.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/enums/button_style.dart';
 import 'package:sipp_mobile/provider/auth/auth_provider.dart';
 import 'package:sipp_mobile/repository/auth/auth_repo.dart';
@@ -74,7 +75,7 @@ class AccountScreen extends StatelessWidget {
                               onPressed: () async {
                                 await context.read<AuthProvider>().logout();
                                 if(provider.logoutResponse?.code == 200) {
-                                  AppNavigation.instance.pushAndRemoveUntil(page: const LoginBase());
+                                  AppNavigation.instance.neglect(path: AppConstant.loginRoute);
                                 } else {
                                   EasyLoading.dismiss();
                                   AppSnackBar.instance.show(provider.logoutResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");

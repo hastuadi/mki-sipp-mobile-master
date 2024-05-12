@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/component/other/shimmer.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/provider/research/research_detail_provider.dart';
 import 'package:sipp_mobile/repository/research/research_repo.dart';
@@ -30,7 +31,7 @@ class ResearchDetail extends StatelessWidget {
           await provider.getDetail(researchId);
           if (provider.detailResponse?.code == 401) {
             await CacheManager.instance.deleteUserSession();
-            AppNavigation.instance.pushAndRemoveUntil(page: const LoginBase());
+            AppNavigation.instance.neglect(path: AppConstant.loginRoute);
           }
         });
         return provider;

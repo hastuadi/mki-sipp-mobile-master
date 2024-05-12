@@ -1,5 +1,6 @@
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:sipp_mobile/component/other/snackbar.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/data/base_response.dart';
 import 'package:sipp_mobile/model/login_response.dart';
 import 'package:sipp_mobile/model/request/login_request.dart';
@@ -83,7 +84,7 @@ class AuthProvider extends BaseProvider {
       await CacheManager.instance.deleteUserSession();
     } else if (_logoutResponse?.code == 401) {
       await CacheManager.instance.deleteUserSession();
-      AppNavigation.instance.pushAndRemoveUntil(page: const LoginBase());
+      AppNavigation.instance.neglect(path: AppConstant.loginRoute);
     }
     EasyLoading.dismiss();
     loading(false);

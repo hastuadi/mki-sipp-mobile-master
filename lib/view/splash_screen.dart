@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/provider/splash_provider.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
@@ -23,10 +25,10 @@ class SplashBase extends StatelessWidget {
             bool login = await provider.hasLogin();
             if(login) {
               EasyLoading.dismiss();
-              AppNavigation.instance.pushReplacement(page: const DashboardBottomNavBar());
+              AppNavigation.instance.neglect(path: AppConstant.dashboardRoute);
             } else {
               EasyLoading.dismiss();
-              AppNavigation.instance.pushReplacement(page: const LoginBase());
+              AppNavigation.instance.neglect(path: AppConstant.loginRoute);
             }
           });
           return provider;
