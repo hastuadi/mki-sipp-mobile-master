@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sipp_mobile/constant/app_constant.dart';
+import 'package:sipp_mobile/util/cache_manager.dart';
 import 'package:sipp_mobile/view/dashboard/bottom_nav_bar.dart';
 import 'package:sipp_mobile/view/detector/detector_screen.dart';
 import 'package:sipp_mobile/view/login/login_screen.dart';
@@ -94,6 +95,14 @@ class AppNavigation {
       ],
     debugLogDiagnostics: true,
     navigatorKey: AppNavigation.navigatorKey,
+    redirect: (context, state) async {
+      String? token = await CacheManager.instance.getUserToken();
+      if((token == "" || token == null || token == " ")) {
+        return AppConstant.loginRoute;
+      } else {
+        return state.matchedLocation;
+      }
+    },
   );
 
 }

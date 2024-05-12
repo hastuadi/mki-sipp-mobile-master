@@ -43,7 +43,7 @@ class ImageResultWidget extends StatelessWidget {
                       Text("Hasil Deteksi", style: AppTextStyle.bold14Black,),
                       const SizedBox(height: 16,),
                       SizedBox(
-                        height: 150,
+                        height: 200,
                         child: ListView.builder(
                           itemCount: provider.detectionResultResponse?.regions?.length,
                           scrollDirection: Axis.horizontal,
@@ -64,7 +64,7 @@ class ImageResultWidget extends StatelessWidget {
                                       } : null,
                                       child: CachedNetworkImage(
                                         imageUrl: provider.detectionResultResponse?.regions?[index].regionResourcePath ?? "-",
-                                        fit: BoxFit.fitHeight,
+                                        fit: BoxFit.cover,
                                         placeholder: (context, url) => const AppShimmer(height: 150, width: 150),
                                         errorWidget: (context, url, error) {
                                           return Container(height: 280, width: double.infinity, decoration: BoxDecoration(
