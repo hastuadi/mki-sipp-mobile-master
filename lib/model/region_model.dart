@@ -3,12 +3,19 @@ class RegionModel {
   String? extension;
   String? filename;
   String? regionResourcePath;
+  double? dimensionMeter;
 
-  RegionModel(this.countObject, this.extension, this.filename, this.regionResourcePath);
+  RegionModel(this.countObject, this.extension, this.filename, this.regionResourcePath, this.dimensionMeter);
 
 
   factory RegionModel.fromJson(Map<String, dynamic>? json) {
-    return RegionModel(json?["count_object"], json?["extension"], json?["filename"], json?["region_resource_path"]);
+    return RegionModel(
+        json?["count_object"],
+        json?["extension"],
+        json?["filename"],
+        json?["region_resource_path"],
+      json?["dimension_meter_square"]
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -16,7 +23,8 @@ class RegionModel {
       "region_resource_path": regionResourcePath,
       "count_object": countObject,
       "filename": filename,
-      "extension": extension
+      "extension": extension,
+      "dimension_meter_square": dimensionMeter
     };
   }
 

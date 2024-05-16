@@ -60,7 +60,7 @@ class ImageResultWidget extends StatelessWidget {
                                         ResearchHandler.instance.showImageDetail(
                                             provider.detectionResultResponse?.regions?[index].regionResourcePath,
                                             provider.detectionResultResponse?.regions?[index].countObject,
-                                            0);
+                                            provider.detectionResultResponse?.regions?[index].dimensionMeter);
                                       } : null,
                                       child: CachedNetworkImage(
                                         imageUrl: provider.detectionResultResponse?.regions?[index].regionResourcePath ?? "-",

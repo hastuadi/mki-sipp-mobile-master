@@ -14,7 +14,7 @@ class ResearchHandler {
     return instance;
   }
 
-  void showImageDetail(String? imageUrl, int? total, int? luasan) {
+  void showImageDetail(String? imageUrl, int? total, double? luasan) {
     showModalBottomSheet(context: AppNavigation.instance.getContext()!, builder: (context) {
       return SizedBox(
         width: double.infinity,
@@ -54,7 +54,7 @@ class ResearchHandler {
               const SizedBox(height: 16,),
               Text("Total Luasan", style: AppTextStyle.regular12Grey,),
               const SizedBox(height: 8,),
-              Text(luasan.toString() , style: AppTextStyle.regular14Black,)
+              Text("${luasan.toString()} m²" , style: AppTextStyle.regular14Black,)
             ],
           ),
         ),

@@ -125,7 +125,7 @@ class ResearchDetail extends StatelessWidget {
                                 return Visibility(
                                     visible: !provider.isLoading,
                                     replacement: const AppShimmer(height: 20, width: 100),
-                                    child: Text(provider.detailResponse?.totalObject.toString() ?? "-", style: AppTextStyle.regular14Black,)
+                                    child: Text("${provider.detailResponse?.totalObject.toString()} m²", style: AppTextStyle.regular14Black,)
                                 );
                               },
                             ),
@@ -161,7 +161,11 @@ class ResearchDetail extends StatelessWidget {
                                 const SizedBox(width: 10,),
                                 GestureDetector(
                                   onTap: () {
-                                    ResearchHandler.instance.showImageDetail(provider.detailResponse?.regions?[index].regionResourcePath, provider.detailResponse?.regions?[index].countObject, 0);
+                                    ResearchHandler.instance.showImageDetail(
+                                        provider.detailResponse?.regions?[index].regionResourcePath,
+                                        provider.detailResponse?.regions?[index].countObject,
+                                        0
+                                    );
                                   },
                                   child: SizedBox(
                                     height: 256,
