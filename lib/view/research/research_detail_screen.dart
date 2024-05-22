@@ -12,7 +12,6 @@ import '../../constant/textstyles.dart';
 import '../../injector.dart';
 import '../../util/app_navigation.dart';
 import '../../util/cache_manager.dart';
-import '../login/login_screen.dart';
 
 class ResearchDetail extends StatelessWidget {
 
@@ -125,7 +124,7 @@ class ResearchDetail extends StatelessWidget {
                                 return Visibility(
                                     visible: !provider.isLoading,
                                     replacement: const AppShimmer(height: 20, width: 100),
-                                    child: Text("${provider.detailResponse?.totalObject.toString()} m²", style: AppTextStyle.regular14Black,)
+                                    child: Text("${provider.detailResponse?.totalDimension.toString()} m²", style: AppTextStyle.regular14Black,)
                                 );
                               },
                             ),
@@ -164,7 +163,7 @@ class ResearchDetail extends StatelessWidget {
                                     ResearchHandler.instance.showImageDetail(
                                         provider.detailResponse?.regions?[index].regionResourcePath,
                                         provider.detailResponse?.regions?[index].countObject,
-                                        0
+                                        provider.detailResponse?.totalDimension
                                     );
                                   },
                                   child: SizedBox(

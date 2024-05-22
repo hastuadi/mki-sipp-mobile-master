@@ -75,7 +75,8 @@ class DetectorProvider extends BaseProvider {
           _detectionResultResponse?.baseResourcePath ?? "",
           MetaData(_selectedLocation?.lat ?? 0.0, _selectedLocation?.lon ?? 0.0, _selectedLocation?.name ?? "", _selectedLocation?.province ?? ""),
           _detectionResultResponse?.totalObject ?? 0,
-          _detectionResultResponse?.regions ?? []
+          _detectionResultResponse?.totalDimension ?? 0.0,
+          _detectionResultResponse?.regions ?? [],
       );
       _saveResponse = await repo.saveInformation(body);
       loading(false);

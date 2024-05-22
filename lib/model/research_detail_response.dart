@@ -10,6 +10,7 @@ class ResearchDetailResponse extends BaseResponse {
   String? location;
   String? province;
   int? totalObject;
+  double? totalDimension;
   List<ObjectResult>? regions;
 
   ResearchDetailResponse({
@@ -24,6 +25,7 @@ class ResearchDetailResponse extends BaseResponse {
     this.location,
     this.province,
     this.totalObject,
+    this.totalDimension,
     this.regions
   });
 
@@ -42,6 +44,7 @@ class ResearchDetailResponse extends BaseResponse {
       location: json?["location"],
       province: json?["province"],
       totalObject: json?["total_object"],
+      totalDimension: json?["total_dimension_area_meter_square"],
       regions: regions
     );
   }

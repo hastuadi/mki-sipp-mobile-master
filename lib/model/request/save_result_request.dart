@@ -6,9 +6,10 @@ class SaveResultRequest {
   String path;
   MetaData metadata;
   int totalCountObject;
+  double totalDimension;
   List<RegionModel> regions;
 
-  SaveResultRequest(this.extension, this.filename, this.path, this.metadata, this.totalCountObject, this.regions);
+  SaveResultRequest(this.extension, this.filename, this.path, this.metadata, this.totalCountObject, this.totalDimension, this.regions);
 
   Map<String, dynamic> toJson() {
     List<Map<String, dynamic>> listOfRegions = [];
@@ -20,6 +21,7 @@ class SaveResultRequest {
       "filename": filename,
       "path": path,
       "metadata": metadata.toJson(),
+      "total_dimension_area_meter_square": totalDimension,
       "total_count_object": totalCountObject,
       "regions": listOfRegions
     };

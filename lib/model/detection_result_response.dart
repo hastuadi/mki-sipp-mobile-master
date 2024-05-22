@@ -7,6 +7,7 @@ class DetectionResultResponse extends BaseResponse {
   String? extension;
   String? filename;
   int? totalObject;
+  double? totalDimension;
   List<RegionModel>? regions;
 
   DetectionResultResponse({
@@ -19,6 +20,7 @@ class DetectionResultResponse extends BaseResponse {
   this.extension,
   this.filename,
   this.totalObject,
+    this.totalDimension,
   this.regions});
 
   DetectionResultResponse fromJson(Map<String, dynamic>? json) {
@@ -34,6 +36,7 @@ class DetectionResultResponse extends BaseResponse {
         extension: json?["extension"],
         filename: json?["filename"],
         totalObject: json?["total_object"],
+        totalDimension: json?["total_dimension_area_meter_square"],
         regions: regions
     );
   }
