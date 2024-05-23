@@ -163,7 +163,7 @@ class ResearchDetail extends StatelessWidget {
                                     ResearchHandler.instance.showImageDetail(
                                         provider.detailResponse?.regions?[index].regionResourcePath,
                                         provider.detailResponse?.regions?[index].countObject,
-                                        provider.detailResponse?.totalDimension
+                                        provider.detailResponse?.regions?[index].dimension
                                     );
                                   },
                                   child: SizedBox(
