@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
-import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/injector.dart';
 import 'package:sipp_mobile/provider/app_provider.dart';
-import 'package:sipp_mobile/provider/splash_provider.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
-import 'package:sipp_mobile/view/splash_screen.dart';
 
 void main() async {
 

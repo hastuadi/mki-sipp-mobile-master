@@ -97,7 +97,7 @@ class AppNavigation {
     navigatorKey: AppNavigation.navigatorKey,
     redirect: (context, state) async {
       String? token = await CacheManager.instance.getUserToken();
-      if((token == "" || token == null || token == " ")) {
+      if((token == "" || token == null || token == " ") && (state.matchedLocation != AppConstant.registerRoute)) {
         return AppConstant.loginRoute;
       } else {
         return state.matchedLocation;
