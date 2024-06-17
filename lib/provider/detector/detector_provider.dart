@@ -42,7 +42,7 @@ class DetectorProvider extends BaseProvider {
 
   adjustMaxRegion({required bool increment}) {
     if(increment) {
-      if(_maxRegion < 5) _maxRegion += 1;
+      if(_maxRegion < 10) _maxRegion += 1;
     } else {
       if(_maxRegion > 1) _maxRegion -= 1;
     }
