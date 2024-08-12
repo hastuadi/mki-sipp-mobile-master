@@ -141,7 +141,7 @@ class _RegisterState extends State<Register> {
                   AppSnackBar.instance.show(provider.createUserResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                 }
               },
-              buttonStyle: AppButtonStyle.filled,
+              buttonStyle: AppButtonStyle.greenFilled,
               child: Text("Daftar", style: AppTextStyle.bold12White,),
             ),
             const SizedBox(height: 10,),

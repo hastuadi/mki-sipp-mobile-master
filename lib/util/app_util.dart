@@ -2,6 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
+import 'dart:html' as html;
 
 class AppUtil {
   AppUtil._private();
@@ -46,4 +48,24 @@ class AppUtil {
     }
     return null;
   }
+
+  Future<void> downloadImage(String url, String fileName) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        final bytes = response.bodyBytes;
+        final blob = html.Blob([bytes]);
+        final url = html.Url.createObjectUrlFromBlob(blob);
+        final anchor = html.AnchorElement(href: url)
+          ..setAttribute("download", fileName)
+          ..click();
+        html.Url.revokeObjectUrl(url);
+      } else {
+        print('Failed to download image');
+      }
+    } catch (e) {
+      print('Error downloading image: $e');
+    }
+  }
+
 }

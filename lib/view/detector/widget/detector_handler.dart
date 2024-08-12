@@ -44,7 +44,7 @@ class DetectorHandler {
                   width: double.infinity,
                   child: Consumer<DetectorProvider>(
                     builder: (context, value, child) => BaseButton(
-                        buttonStyle: AppButtonStyle.filled,
+                        buttonStyle: AppButtonStyle.greenFilled,
                         onPressed: () {
                           AppNavigation.instance.pop(context.read<DetectorProvider>().maxRegion);
                         },
@@ -93,7 +93,7 @@ class DetectorHandler {
                         onPressed: () {
                           AppNavigation.instance.pop(true);
                         },
-                        buttonStyle: AppButtonStyle.filled,
+                        buttonStyle: AppButtonStyle.greenFilled,
                         child: Text("Ya, Saya Yakin", style: AppTextStyle.regular14White,),
                       ),
                     ),
@@ -183,7 +183,7 @@ class DetectorHandler {
                     width: double.infinity,
                     child: Consumer<OSMProvider>(
                       builder: (context, provider, child) => BaseButton(
-                          buttonStyle: AppButtonStyle.filled,
+                          buttonStyle: AppButtonStyle.greenFilled,
                           onPressed: provider.selectedLocation != null ? () {
                             AppNavigation.instance.pop(provider.selectedLocation);
                           } : null,

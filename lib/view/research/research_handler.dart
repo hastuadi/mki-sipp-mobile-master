@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
+import 'package:sipp_mobile/util/app_util.dart';
 
 import '../../component/other/shimmer.dart';
 import '../../constant/textstyles.dart';
@@ -44,6 +45,36 @@ class ResearchHandler {
                           child: Center(child: Text("Can't load image", style: AppTextStyle.regular12Black26,),),);
                       },
                     ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16,),
+              Center(
+                child: IntrinsicWidth(
+                  child: TextButton(
+                    style: ButtonStyle(
+                      side: MaterialStateProperty.all(
+                        const BorderSide(
+                          color: Colors.black, // Set your border color here
+                          width: 1.0,        // Set the border width
+                        ),
+                      ),
+                      shape: MaterialStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.0), // Optional: set border radius
+                        ),
+                      ),
+                    ),
+                      onPressed: () async {
+                        await AppUtil.instance.downloadImage(imageUrl!, "download_sipp.jpg");
+                      },
+                      child: Row(
+                        children: [
+                          Text("Unduh Gambar", style: AppTextStyle.regular14Black),
+                          const SizedBox(width: 8,),
+                          const Icon(Icons.download, color: Colors.black, size: 16,)
+                        ],
+                      )
                   ),
                 ),
               ),
