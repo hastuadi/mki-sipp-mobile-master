@@ -25,7 +25,7 @@ class HeaderWidget extends StatelessWidget {
           SizedBox(
             height: 290,
             child: Container(
-              color: AppColor.primaryColor,
+              color: AppColor.bgGreenColor,
             ),
           ),
           Positioned(

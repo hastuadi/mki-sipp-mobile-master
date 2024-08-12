@@ -41,7 +41,7 @@ class DashboardBottomNavBar extends StatelessWidget {
             ],
             currentIndex: index,
             backgroundColor: Colors.white,
-            selectedItemColor: AppColor.primaryColor,
+            selectedItemColor: AppColor.bgGreenColor,
             onTap: (indexTab) {
               context.read<BottomNavBarProvider>().changeTabMenu(indexTab);
             },

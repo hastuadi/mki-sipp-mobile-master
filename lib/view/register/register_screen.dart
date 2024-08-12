@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:sipp_mobile/component/button/base_button.dart';
 import 'package:sipp_mobile/component/input/base_input.dart';
 import 'package:sipp_mobile/component/other/snackbar.dart';
+import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/enums/button_style.dart';
 import 'package:sipp_mobile/model/request/register_request.dart';
@@ -135,7 +136,7 @@ class _RegisterState extends State<Register> {
                 await provider.createUser(request);
                 if(provider.createUserResponse?.code == 201) {
                   AppSnackBar.instance.show("Register Berhasil");
-                  AppNavigation.instance.pop();
+                  AppNavigation.instance.neglect(path: AppConstant.loginRoute);
                 } else {
                   AppSnackBar.instance.show(provider.createUserResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                 }
@@ -151,7 +152,7 @@ class _RegisterState extends State<Register> {
                 const SizedBox(width: 3,),
                 InkWell(
                   onTap: () {
-                    AppNavigation.instance.pop();
+                    AppNavigation.instance.neglect(path: AppConstant.loginRoute);
                   },
                     child: Text("Masuk", style: AppTextStyle.bold14Primary,)
                 ),

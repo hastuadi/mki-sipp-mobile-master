@@ -17,5 +17,5 @@ class AppConstant {
   static String researchLocationRoute = "/research/location";
   static String researchDetectRoute = "/research/detect";
   static String researchDetailRoute = "/research/detail/:id";
-
+  static String imageCompressor = "/image-compressor";
 }

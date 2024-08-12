@@ -29,7 +29,7 @@ class HomePageScreen extends StatelessWidget {
                   Text("Penelitianku", style: AppTextStyle.bold14Black,),
                   const SizedBox(height: 16,),
                   Visibility(
-                    visible: ResponsiveLayout.isTablet(context) || ResponsiveLayout.isDesktop(context),
+                    visible: ResponsiveLayout.isDesktop(context),
                       replacement: Column(
                         children: [
                           MenuWidget(
@@ -54,6 +54,18 @@ class HomePageScreen extends StatelessWidget {
                               },
                               backgroundColor: AppColor.deepBlue.withOpacity(0.2),
                               buttonColor: AppButtonStyle.deepBlueFilled
+                          ),
+                          const SizedBox(height: 24,),
+                          MenuWidget(
+                              title: "Kompres Gambar",
+                              titleStyle: AppTextStyle.bold14Orange,
+                              subtitle: "Ukuran yang pas, dapat meningkatkan hasil Program Deteksi Objek",
+                              buttonText: "Lihat Menu",
+                              buttonAction: () {
+                                AppNavigation.instance.push(path: AppConstant.imageCompressor);
+                              },
+                              backgroundColor: AppColor.orange.withOpacity(0.2),
+                              buttonColor: AppButtonStyle.orangeFilled
                           )
                         ],
                       ),
@@ -81,6 +93,18 @@ class HomePageScreen extends StatelessWidget {
                               },
                               backgroundColor: AppColor.deepBlue.withOpacity(0.2),
                               buttonColor: AppButtonStyle.deepBlueFilled
+                          ),
+                          const SizedBox(width: 24,),
+                          MenuWidget(
+                              title: "Kompres Gambar",
+                              titleStyle: AppTextStyle.bold14Orange,
+                              subtitle: "Ukuran yang pas, dapat meningkatkan hasil Program Deteksi Objek",
+                              buttonText: "Lihat Menu",
+                              buttonAction: () {
+                                AppNavigation.instance.push(path: AppConstant.imageCompressor);
+                              },
+                              backgroundColor: AppColor.orange.withOpacity(0.2),
+                              buttonColor: AppButtonStyle.orangeFilled
                           )
                         ],
                       )

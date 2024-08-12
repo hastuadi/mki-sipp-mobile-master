@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/component/other/snackbar.dart';
@@ -7,7 +9,6 @@ import 'package:sipp_mobile/provider/detector/detector_provider.dart';
 import 'package:sipp_mobile/repository/detector/detector_repo.dart';
 import 'package:sipp_mobile/view/detector/widget/detector_handler.dart';
 import 'package:sipp_mobile/view/detector/widget/frame_image_widget.dart';
-import 'package:sipp_mobile/view/detector/widget/image_example_widget.dart';
 import 'package:sipp_mobile/view/detector/widget/image_result_widget.dart';
 
 import '../../component/button/base_button.dart';
@@ -15,20 +16,22 @@ import '../../constant/textstyles.dart';
 import '../../enums/button_style.dart';
 
 class DetectorScreen extends StatelessWidget {
-  const DetectorScreen({Key? key}) : super(key: key);
+  final Uint8List? compressedImage;
+  const DetectorScreen({Key? key, this.compressedImage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => DetectorProvider(locator<DetectorRepo>()),
-      child: const DetectorScreenBody(),
+      child: DetectorScreenBody(compressedImage: compressedImage,),
     );
   }
 }
 
 
 class DetectorScreenBody extends StatefulWidget {
-  const DetectorScreenBody({super.key});
+  final Uint8List? compressedImage;
+  const DetectorScreenBody({super.key, this.compressedImage});
 
   @override
   State<DetectorScreenBody> createState() => _DetectorScreenBodyState();
@@ -39,6 +42,16 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
   final TextEditingController _provinceController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      if(widget.compressedImage != null) {
+        context.read<DetectorProvider>().setImagePath(widget.compressedImage);
+      }
+    });
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -111,8 +124,6 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                       provinceController: _provinceController,
                     ),
                     const SizedBox(height: 24,),
-                    const ImageExampleWidget(),
-                    const SizedBox(height: 24,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -165,7 +176,7 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                                   provider.reset();
                                 }
                               } : null,
-                              buttonStyle: AppButtonStyle.filled,
+                              buttonStyle: AppButtonStyle.greenFilled,
                               child: Text((provider.detectionResultResponse != null) ? "Simpan" : "Deteksi", style: AppTextStyle.regular14White,),
                             ),
                           ),

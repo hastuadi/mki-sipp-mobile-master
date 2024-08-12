@@ -52,11 +52,14 @@ class AppTextStyle {
   static TextStyle bold14Primary = AppTextStyle.bold14.copyWith(color: AppColor.primaryColor);
   static TextStyle bold14Purple = AppTextStyle.bold14.copyWith(color: AppColor.purple);
   static TextStyle bold14DeepBlue = AppTextStyle.bold14.copyWith(color: AppColor.deepBlue);
+  static TextStyle bold14Orange = AppTextStyle.bold14.copyWith(color: AppColor.orange);
+  static TextStyle bold14Green = AppTextStyle.bold14.copyWith(color: AppColor.greenColor);
   static TextStyle regular14DeepBlue = AppTextStyle.regular14.copyWith(color: AppColor.deepBlue);
   static TextStyle bold14Black = AppTextStyle.bold14.copyWith(color: Colors.black);
   static TextStyle regular12Red = AppTextStyle.regular12.copyWith(color: Colors.red);
   static TextStyle regular12Black = AppTextStyle.regular12.copyWith(color: Colors.black);
   static TextStyle regular12White = AppTextStyle.regular12.copyWith(color: Colors.white);
+  static TextStyle regular14Green = AppTextStyle.regular14.copyWith(color: AppColor.greenColor);
   static TextStyle bold18White = AppTextStyle.bold18.copyWith(color: Colors.white);
   static TextStyle regular12Black26 = AppTextStyle.regular12.copyWith(color: Colors.black26);
   static TextStyle regular12Grey = AppTextStyle.regular12.copyWith(color: AppColor.grey);

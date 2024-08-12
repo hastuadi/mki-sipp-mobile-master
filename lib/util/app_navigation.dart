@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/util/cache_manager.dart';
+import 'package:sipp_mobile/view/compressor/compressor_screen.dart';
 import 'package:sipp_mobile/view/dashboard/bottom_nav_bar.dart';
 import 'package:sipp_mobile/view/detector/detector_screen.dart';
 import 'package:sipp_mobile/view/login/login_screen.dart';
@@ -36,9 +39,9 @@ class AppNavigation {
     }
   }
 
-  push({required String path}) {
+  push({required String path, Object? extra}) {
     if(kIsWeb) {
-      Router.navigate(AppNavigation.instance.getContext()!, () => AppNavigation.instance.getContext()!.go(path));
+      Router.navigate(AppNavigation.instance.getContext()!, () => AppNavigation.instance.getContext()!.go(path, extra: extra));
     } else {
       AppNavigation.instance.getContext()!.push(path);
     }
@@ -83,7 +86,13 @@ class AppNavigation {
         GoRoute(
           name: "researchDetect",
           path: AppConstant.researchDetectRoute,
-          builder: (context, state) => const DetectorScreen(),
+          builder: (context, state) {
+            if(state.extra != null) {
+              final Uint8List encodedData = state.extra as Uint8List;
+              return DetectorScreen(compressedImage: encodedData,);
+            }
+            return const DetectorScreen();
+          },
         ),
         GoRoute(
           name: "researchDetail",
@@ -91,6 +100,11 @@ class AppNavigation {
           builder: (context, state) => ResearchDetail(
             researchId: int.parse(state.pathParameters["id"] ?? "0").toInt(),
           ),
+        ),
+        GoRoute(
+          name: "imageCompressor",
+          path: AppConstant.imageCompressor,
+          builder: (context, state) => const ImageCompressorScreen(),
         )
       ],
     debugLogDiagnostics: true,

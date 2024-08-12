@@ -6,7 +6,9 @@ enum AppButtonStyle {
   filled,
   purpleFilled,
   redFilled,
-  deepBlueFilled
+  deepBlueFilled,
+  orangeFilled,
+  greenFilled
 }
 
 extension AppButtonStyleExt on AppButtonStyle {
@@ -46,6 +48,10 @@ extension AppButtonStyleExt on AppButtonStyle {
         return setFilledStyle(bgColor: AppColor.red, pressedColor: AppColor.red.withOpacity(0.9));
       case AppButtonStyle.deepBlueFilled:
         return setFilledStyle(bgColor: AppColor.deepBlue, pressedColor: AppColor.deepBlue.withOpacity(0.9));
+      case AppButtonStyle.orangeFilled:
+        return setFilledStyle(bgColor: AppColor.orange, pressedColor: AppColor.orange.withOpacity(0.9));
+      case AppButtonStyle.greenFilled:
+        return setFilledStyle(bgColor: AppColor.greenColor, pressedColor: AppColor.greenColor.withOpacity(0.9));
     }
   }
 }

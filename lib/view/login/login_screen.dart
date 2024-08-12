@@ -131,7 +131,7 @@ class _LoginState extends State<Login> {
                   ));
                   _handleLogin();
                 },
-                buttonStyle: AppButtonStyle.filled,
+                buttonStyle: AppButtonStyle.greenFilled,
                 child: Text("Masuk", style: AppTextStyle.bold12White,),
               ),
             ),
@@ -145,7 +145,7 @@ class _LoginState extends State<Login> {
                     onTap: () {
                       AppNavigation.instance.push(path: AppConstant.registerRoute);
                     },
-                    child: Text("Daftar", style: AppTextStyle.bold14Primary,)
+                    child: Text("Daftar", style: AppTextStyle.bold14Green,)
                 ),
               ],
             )
