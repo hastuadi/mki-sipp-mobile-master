@@ -46,12 +46,9 @@ class ResearchLocationBody extends StatelessWidget {
         backgroundColor: Colors.white,
         title: Text("Penelitian", style: AppTextStyle.bold14),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: Stack(
         children: [
-          SizedBox(
-            height: 250,
-            child: Consumer<ResearchProvider>(
+          Consumer<ResearchProvider>(
               builder: (context, provider, child) {
                 return FlutterMap(
                     options: const MapOptions(
@@ -66,62 +63,83 @@ class ResearchLocationBody extends StatelessWidget {
                 );
               },
             ),
-          ),
-          const SizedBox(height: 24,),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Text("Daftar Lokasi", style: AppTextStyle.bold14Black,),
-          ),
-          const SizedBox(height: 24,),
-          Expanded(
-            child: Consumer<ResearchProvider>(
-              builder: (context, provider, child) {
-                return ListView.separated(
-                  itemCount: provider.isLoading ? 3 : provider.researchListResponse?.data?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    return Visibility(
-                      visible: !provider.isLoading,
-                      replacement: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Shimmer.fromColors(
-                          enabled: true,
-                          baseColor: Colors.grey.shade300,
-                          highlightColor: Colors.grey.shade100,
-                          child: Container(height: 24, decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8),
-                              color: Colors.grey
-                          ),),
-                        ),
-                      ),
-                      child: InkWell(
-                        onTap: () {
-                          AppNavigation.instance.push(path: "/research/detail/${provider.researchListResponse?.data?[index].masterImageId ?? 0}");
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            "${provider.researchListResponse?.data?[index].location} (${provider.researchListResponse?.data?[index].province})",
-                            style: AppTextStyle.regular12Black,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Padding(
+          Positioned(
+            top: 32,
+            left: 32,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              height: 350,
+              width: 250,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black38.withOpacity(.25),
+                    blurRadius: 60,
+                    spreadRadius: 10,
+                  ),
+                ]
+              ),
+              child: Column(
+                children: [
+                  Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Visibility(
-                      visible: !provider.isLoading,
-                      replacement: Divider(
-                        color: Colors.grey.shade300,
-                      ),
-                      child: const Divider(),
+                    child: Text("Daftar Lokasi", style: AppTextStyle.bold14Black,),
+                  ),
+                  Expanded(
+                    child: Consumer<ResearchProvider>(
+                      builder: (context, provider, child) {
+                        return ListView.separated(
+                          itemCount: provider.isLoading ? 3 : provider.researchListResponse?.data?.length ?? 0,
+                          itemBuilder: (context, index) {
+                            return Visibility(
+                              visible: !provider.isLoading,
+                              replacement: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Shimmer.fromColors(
+                                  enabled: true,
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Container(height: 24, decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: Colors.grey
+                                  ),),
+                                ),
+                              ),
+                              child: InkWell(
+                                onTap: () {
+                                  AppNavigation.instance.push(path: "/research/detail/${provider.researchListResponse?.data?[index].masterImageId ?? 0}");
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(16.0),
+                                  child: Text(
+                                    "${provider.researchListResponse?.data?[index].location} (${provider.researchListResponse?.data?[index].province})",
+                                    style: AppTextStyle.regular12Black,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Visibility(
+                              visible: !provider.isLoading,
+                              replacement: Divider(
+                                color: Colors.grey.shade300,
+                              ),
+                              child: const Divider(),
+                            ),
+                          ),);
+                      },
                     ),
-                  ),);
-              },
+                  )
+                ],
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
