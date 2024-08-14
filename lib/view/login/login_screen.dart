@@ -57,99 +57,77 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      body: Stack(
-        children: [
-          Positioned(
-            left: -100,
-            top: -87,
-            child: Image.asset('assets/images/general/round-bg-icon.png'),
-          ),
-          Center(
-            child: Visibility(
-              visible: ResponsiveLayout.isMobile(context),
-              replacement: SizedBox(
-                width: 500,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Center(
-                    child: SingleChildScrollView(
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/images/general/app-icon.png'),
-                          const SizedBox(height: 16,),
-                          Text("SIPP", style: AppTextStyle.bold24Black,),
-                          Text("Sistem Informasi Penunjang Penelitian", style: AppTextStyle.regular14Black,),
-                          const SizedBox(height: 24,),
-                          BaseInput(controller: _emailController, hint: "Email"),
-                          const SizedBox(height: 16,),
-                          BaseInput(controller: _passwordController, hint: "Password", obscureText: true,),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
+      backgroundColor: Colors.grey[35],
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: 600,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        blurRadius: 7,
+                        spreadRadius: 5,
+                        offset: const Offset(0, 1)
+                    )
+                  ]
               ),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
-                child: Center(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 16,),
+                    Row(
                       children: [
-                        Image.asset('assets/images/general/app-icon.png'),
-                        const SizedBox(height: 16,),
-                        Text("SIPP", style: AppTextStyle.bold24Black,),
-                        Text("Sistem Informasi Penunjang Penelitian", style: AppTextStyle.regular14Black,),
-                        const SizedBox(height: 24,),
-                        BaseInput(controller: _emailController, hint: "Email"),
-                        const SizedBox(height: 16,),
-                        BaseInput(controller: _passwordController, hint: "Password", obscureText: true,),
+                        Text("Sistem Informasi Penunjang Penelitian", style: AppTextStyle.bold14Black,),
+                        const SizedBox(width: 8,),
+                        const Icon(Icons.lock, size: 16, color: Colors.grey,)
                       ],
                     ),
-                  ),
+                    const SizedBox(height: 12,),
+                    Text("Sistem Informasi Penunjang Penelitian", style: AppTextStyle.regular12Black,),
+                    const SizedBox(height: 24,),
+                    BaseInput(controller: _emailController, hint: "Email"),
+                    const SizedBox(height: 16,),
+                    BaseInput(controller: _passwordController, hint: "Password", obscureText: true,),
+                    const SizedBox(height: 24,),
+                    SizedBox(
+                      child: BaseButton(
+                        onPressed: () async {
+                          await context.read<AuthProvider>().login(LoginRequest(
+                              email: _emailController.text.toString(),
+                              password: _passwordController.text.toString()
+                          ));
+                          _handleLogin();
+                        },
+                        buttonStyle: AppButtonStyle.greenFilled,
+                        child: Text("Masuk", style: AppTextStyle.bold12White,),
+                      ),
+                    ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Belum punya akun?", style: AppTextStyle.regular14Black,),
+                        const SizedBox(width: 3,),
+                        InkWell(
+                            onTap: () {
+                              AppNavigation.instance.push(path: AppConstant.registerRoute);
+                            },
+                            child: Text("Daftar", style: AppTextStyle.bold14Green,)
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ),
             ),
-          )
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(
-              width: ResponsiveLayout.isMobile(context) ? null : 500,
-              child: BaseButton(
-                onPressed: () async {
-                  await context.read<AuthProvider>().login(LoginRequest(
-                    email: _emailController.text.toString(),
-                    password: _passwordController.text.toString()
-                  ));
-                  _handleLogin();
-                },
-                buttonStyle: AppButtonStyle.greenFilled,
-                child: Text("Masuk", style: AppTextStyle.bold12White,),
-              ),
-            ),
-            const SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Belum punya akun?", style: AppTextStyle.regular14Black,),
-                const SizedBox(width: 3,),
-                InkWell(
-                    onTap: () {
-                      AppNavigation.instance.push(path: AppConstant.registerRoute);
-                    },
-                    child: Text("Daftar", style: AppTextStyle.bold14Green,)
-                ),
-              ],
-            )
-          ],
+          ),
         ),
       ),
     );

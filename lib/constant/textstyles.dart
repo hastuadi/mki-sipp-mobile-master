@@ -20,6 +20,12 @@ class AppTextStyle {
       fontWeight: FontWeight.normal
   );
 
+  static TextStyle regular24 = const TextStyle(
+      fontSize: 24,
+      fontFamily: 'Poppins',
+      fontWeight: FontWeight.normal
+  );
+
   static TextStyle bold14 = const TextStyle(
       fontSize: 14,
       fontFamily: 'Poppins',
@@ -47,6 +53,7 @@ class AppTextStyle {
   static TextStyle bold24Black = AppTextStyle.bold24.copyWith(color: Colors.black);
   static TextStyle bold18Black = AppTextStyle.bold18.copyWith(color: Colors.black);
   static TextStyle regular14Black = AppTextStyle.regular14.copyWith(color: Colors.black);
+  static TextStyle regular24Black = AppTextStyle.regular24.copyWith(color: Colors.black);
   static TextStyle regular14Primary = AppTextStyle.regular14.copyWith(color: AppColor.primaryColor);
   static TextStyle regular14White = AppTextStyle.regular14.copyWith(color: Colors.white);
   static TextStyle bold14Primary = AppTextStyle.bold14.copyWith(color: AppColor.primaryColor);

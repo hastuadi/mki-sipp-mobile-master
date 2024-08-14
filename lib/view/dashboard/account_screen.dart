@@ -30,66 +30,88 @@ class AccountScreen extends StatelessWidget {
       } ,
       builder: (context, child) {
         return Scaffold(
-          backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const HeaderWidget(),
-                const SizedBox(height: 8,),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("Data Pribadi", style: AppTextStyle.bold14Black,),
-                      const SizedBox(height: 16,),
-                      Selector<AuthProvider, String?>(
-                        selector: (p0, provider) => provider.name,
-                        builder: (context, name, child) {
-                          return BaseInput(
-                              enabled: false,
-                              controller: TextEditingController(),
-                              fillColor: Colors.grey.shade300,
-                              hint: name ?? "-"
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 16,),
-                      Selector<AuthProvider, String?>(
-                        selector: (p0, provider) => provider.email,
-                        builder: (context, email, child) {
-                          return BaseInput(
-                              enabled: false,
-                              controller: TextEditingController(),
-                              fillColor: Colors.grey.shade300,
-                              hint: email ?? "-"
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 24,),
-                      Consumer<AuthProvider>(
-                        builder: (context, provider, child) {
-                          return BaseButton(
-                              buttonStyle: AppButtonStyle.redFilled,
-                              onPressed: () async {
-                                await context.read<AuthProvider>().logout();
-                                if(provider.logoutResponse?.code == 200) {
-                                  AppNavigation.instance.neglect(path: AppConstant.loginRoute);
-                                } else {
-                                  EasyLoading.dismiss();
-                                  AppSnackBar.instance.show(provider.logoutResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
-                                }
-                              },
-                              child: child!
-                          );
-                        },
-                        child: Text("Keluar", style: AppTextStyle.regular12White,),
-                      )
-                    ],
+          backgroundColor: Colors.grey[35],
+          body: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Container(
+                  width: 600,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey.withOpacity(0.2),
+                            blurRadius: 7,
+                            spreadRadius: 5,
+                            offset: const Offset(0, 1)
+                        )
+                      ]
                   ),
-                )
-              ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 16,),
+                        Row(
+                          children: [
+                            Text("Sistem Informasi Penunjang Penelitian", style: AppTextStyle.bold14Black,),
+                            const SizedBox(width: 8,),
+                            const Icon(Icons.lock, size: 16, color: Colors.grey,)
+                          ],
+                        ),
+                        const SizedBox(height: 12,),
+                        Text("Data Pribadi", style: AppTextStyle.regular12Black,),
+                        const SizedBox(height: 24,),
+                        Selector<AuthProvider, String?>(
+                          selector: (p0, provider) => provider.name,
+                          builder: (context, name, child) {
+                            return BaseInput(
+                                enabled: false,
+                                controller: TextEditingController(),
+                                fillColor: Colors.grey[100],
+                                hint: name ?? "-"
+                            );
+                            },
+                        ),
+                        const SizedBox(height: 16,),
+                        Selector<AuthProvider, String?>(
+                          selector: (p0, provider) => provider.email,
+                          builder: (context, email, child) {
+                            return BaseInput(
+                                enabled: false,
+                                controller: TextEditingController(),
+                                fillColor: Colors.grey[100],
+                                hint: email ?? "-"
+                            );
+                          },
+                        ),
+                        const SizedBox(height: 24,),
+                        Consumer<AuthProvider>(
+                          builder: (context, provider, child) {
+                            return BaseButton(
+                                buttonStyle: AppButtonStyle.redFilled,
+                                onPressed: () async {
+                                  await context.read<AuthProvider>().logout();
+                                  if(provider.logoutResponse?.code == 200) {
+                                    AppNavigation.instance.neglect(path: AppConstant.loginRoute);
+                                  } else {
+                                    EasyLoading.dismiss();
+                                    AppSnackBar.instance.show(provider.logoutResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
+                                  }
+                                },
+                                child: child!
+                            );
+                          },
+                          child: Text("Keluar", style: AppTextStyle.regular12White,),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
         );

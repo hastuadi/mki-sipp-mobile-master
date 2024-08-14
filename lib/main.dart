@@ -12,7 +12,7 @@ void main() async {
 
   runApp(MultiProvider(
     providers: [
-      ChangeNotifierProvider(create: (context) => AppProvider())
+      ChangeNotifierProvider(create: (context) => AppProvider()..getCurrentDate())
     ],
       builder: (context, child) => const MyApp(),
   ));
