@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -96,9 +97,13 @@ class AccountScreen extends StatelessWidget {
                                 onPressed: () async {
                                   await context.read<AuthProvider>().logout();
                                   if(provider.logoutResponse?.code == 200) {
+                                    FirebaseAnalytics.instance.logEvent(name: "Logout_Success");
                                     AppNavigation.instance.neglect(path: AppConstant.loginRoute);
                                   } else {
                                     EasyLoading.dismiss();
+                                    FirebaseAnalytics.instance.logEvent(name: "Logout_Failed", parameters: {
+                                      "error_code": provider.logoutResponse?.code
+                                    });
                                     AppSnackBar.instance.show(provider.logoutResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                                   }
                                 },

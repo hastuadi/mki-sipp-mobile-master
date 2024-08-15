@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +37,13 @@ class ImageCompressorBody extends StatefulWidget {
 }
 
 class _ImageCompressorBodyState extends State<ImageCompressorBody> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    FirebaseAnalytics.instance.logEvent(name: "Compressor_Screen");
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -107,6 +115,7 @@ class _ImageCompressorBodyState extends State<ImageCompressorBody> {
                           child: Consumer<ImageCompressorProvider>(
                             builder: (context, provider, child) => BaseButton(
                               onPressed: provider.imagePath != null && provider.compressedImage == null ? () async {
+                                FirebaseAnalytics.instance.logEvent(name: "Compress_Success");
                                 EasyLoading.show();
                                 await provider.compress(provider.imagePath!);
                                 EasyLoading.dismiss();

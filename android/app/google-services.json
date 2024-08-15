@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "804147215638",
+    "project_id": "sipp-mobile-316d1",
+    "storage_bucket": "sipp-mobile-316d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:804147215638:android:4257a2820a12dd87f0a437",
+        "android_client_info": {
+          "package_name": "com.mki.sipp_mobile"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgcM-l-kxrwZKB6De8R3eexlLYrPMvgmE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

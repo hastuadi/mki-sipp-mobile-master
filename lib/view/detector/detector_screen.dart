@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/component/other/snackbar.dart';
@@ -45,6 +46,7 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
 
   @override
   void initState() {
+    FirebaseAnalytics.instance.logEvent(name: "Realtime_Detector_Screen");
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       if(widget.compressedImage != null) {
         context.read<DetectorProvider>().setImagePath(widget.compressedImage);
@@ -163,7 +165,12 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                                 if(provider.detectionResultResponse == null && provider.detectionError != null) {
                                   AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                                 } else if (provider.detectionResultResponse?.code != 200 && provider.detectionError == null) {
-                                  AppSnackBar.instance.show(provider.detectionResultResponse?.code.toString());
+                                  FirebaseAnalytics.instance.logEvent(name: "Detect_Failed", parameters: {
+                                    "error_code": provider.detectionResultResponse?.code
+                                  });
+                                  AppSnackBar.instance.show("Error Occurred ${provider.detectionResultResponse?.code.toString()}");
+                                } else {
+                                  FirebaseAnalytics.instance.logEvent(name: "Detect_Success");
                                 }
                               } : !provider.isLoading && provider.selectedLocation != null && (provider.detectionResultResponse?.regions?.isNotEmpty ?? false) && provider.imagePath != null ? () async {
                                 DetectorProvider provider = context.read<DetectorProvider>();
@@ -171,8 +178,12 @@ class _DetectorScreenBodyState extends State<DetectorScreenBody> {
                                 if(provider.saveResponse == null && provider.detectionError != null) {
                                   AppSnackBar.instance.show("Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                                 } else if (provider.saveResponse?.code != 200 && provider.detectionError == null) {
+                                  FirebaseAnalytics.instance.logEvent(name: "Save_Result_Failed", parameters: {
+                                    "error_code": provider.detectionResultResponse?.code
+                                  });
                                   AppSnackBar.instance.show(provider.saveResponse?.code.toString());
                                 } else {
+                                  FirebaseAnalytics.instance.logEvent(name: "Save_Result_Success");
                                   provider.reset();
                                 }
                               } : null,

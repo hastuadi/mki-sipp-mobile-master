@@ -1,14 +1,11 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sipp_mobile/component/other/responsive_layout.dart';
 import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
-import 'package:sipp_mobile/enums/button_style.dart';
 import 'package:sipp_mobile/provider/app_provider.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
-import 'package:sipp_mobile/view/dashboard/widget/header_widget.dart';
-import 'package:sipp_mobile/view/dashboard/widget/menu_widget.dart';
 
 import '../../injector.dart';
 import '../../provider/auth/auth_provider.dart';
@@ -35,8 +32,6 @@ class HomePageScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // const HeaderWidget(),
-                // const SizedBox(height: 8,),
                 Text(context.read<AppProvider>().currentDate, style: AppTextStyle.regular24Black,),
                 const SizedBox(height: 16,),
                 Text("Selamat Datang", style: AppTextStyle.regular12Black,),
@@ -75,6 +70,7 @@ class HomePageScreen extends StatelessWidget {
                           splashColor: Colors.grey[250],
                           hoverColor: Colors.grey[100],
                           onTap: () {
+                            FirebaseAnalytics.instance.logEvent(name: "Research_Report_Clicked");
                             AppNavigation.instance.push(path: AppConstant.researchListRoute);
                           },
                         ),
@@ -88,6 +84,7 @@ class HomePageScreen extends StatelessWidget {
                           splashColor: Colors.grey[250],
                           hoverColor: Colors.grey[100],
                           onTap: () {
+                            FirebaseAnalytics.instance.logEvent(name: "Realtime_Detector_Clicked");
                             AppNavigation.instance.push(path: AppConstant.researchDetectRoute);
                           },
                         ),
@@ -101,6 +98,7 @@ class HomePageScreen extends StatelessWidget {
                           splashColor: Colors.grey[250],
                           hoverColor: Colors.grey[100],
                           onTap: () {
+                            FirebaseAnalytics.instance.logEvent(name: "Image_Compressor_Clicked");
                             AppNavigation.instance.push(path: AppConstant.imageCompressor);
                           },
                         ),

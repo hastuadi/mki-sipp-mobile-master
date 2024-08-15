@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +50,7 @@ class CompressorResult extends StatelessWidget {
                       onPressed: () {
                         ImageCompressorProvider provider = context.read<ImageCompressorProvider>();
                         WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+                          FirebaseAnalytics.instance.logEvent(name: "Use_Image_Result");
                           EasyLoading.show();
                           await Future.delayed(const Duration(seconds: 1));
                           EasyLoading.dismiss();

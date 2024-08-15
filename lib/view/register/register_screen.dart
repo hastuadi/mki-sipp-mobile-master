@@ -1,3 +1,4 @@
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sipp_mobile/component/button/base_button.dart';
@@ -40,6 +41,12 @@ class _RegisterState extends State<Register> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmationPasswordController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    FirebaseAnalytics.instance.logEvent(name: "Register_Screen");
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -135,9 +142,13 @@ class _RegisterState extends State<Register> {
                 AuthProvider provider = context.read<AuthProvider>();
                 await provider.createUser(request);
                 if(provider.createUserResponse?.code == 201) {
+                  FirebaseAnalytics.instance.logEvent(name: "Register_Success");
                   AppSnackBar.instance.show("Register Berhasil");
                   AppNavigation.instance.neglect(path: AppConstant.loginRoute);
                 } else {
+                  FirebaseAnalytics.instance.logEvent(name: "Register_Success", parameters: {
+                    "error_code": provider.createUserResponse?.code
+                  });
                   AppSnackBar.instance.show(provider.createUserResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                 }
               },

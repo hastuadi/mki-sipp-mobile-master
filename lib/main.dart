@@ -5,8 +5,16 @@ import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/injector.dart';
 import 'package:sipp_mobile/provider/app_provider.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
 void main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   await registerDependency();
 
@@ -56,17 +64,5 @@ class _MyAppState extends State<MyApp> {
       ),
       builder: EasyLoading.init(),
     );
-    // return MaterialApp(
-    //   title: 'SIPP',
-    //   debugShowCheckedModeBanner: false,
-    //   theme: ThemeData(
-    //     colorScheme: ColorScheme.fromSeed(seedColor: AppColor.primaryColor),
-    //     fontFamily: 'Poppins',
-    //     useMaterial3: true,
-    //   ),
-    //   navigatorKey: AppNavigation.instance.navigatorKey,
-    //   builder: EasyLoading.init(),
-    //   routes: AppConstant.appRoute,
-    // );
   }
 }
