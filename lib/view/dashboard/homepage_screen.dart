@@ -1,18 +1,31 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:sipp_mobile/component/other/responsive_layout.dart';
 import 'package:sipp_mobile/constant/app_constant.dart';
 import 'package:sipp_mobile/constant/colors.dart';
 import 'package:sipp_mobile/constant/textstyles.dart';
 import 'package:sipp_mobile/provider/app_provider.dart';
 import 'package:sipp_mobile/util/app_navigation.dart';
+import 'package:sipp_mobile/view/dashboard/widget/agenda_widget.dart';
+import 'package:sipp_mobile/view/dashboard/widget/main_menu_widget.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../../injector.dart';
 import '../../provider/auth/auth_provider.dart';
 import '../../repository/auth/auth_repo.dart';
 
-class HomePageScreen extends StatelessWidget {
+class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomePageScreen> createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen> {
+
+  DateTime _selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -42,69 +55,116 @@ class HomePageScreen extends StatelessWidget {
                     style: AppTextStyle.bold14Black,),
                 ),
                 const SizedBox(height: 16,),
-                Container(
-                  width: 400,
-                  padding: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                            color: Colors.grey.withOpacity(0.2),
-                            blurRadius: 7,
-                            spreadRadius: 5,
-                            offset: const Offset(0, 1)
-                        )
-                      ]
-                  ),
-                  child: Column(
+                Visibility(
+                  visible: ResponsiveLayout.isDesktop(context) || ResponsiveLayout.isTablet(context),
+                  replacement: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Menu Utama", style: AppTextStyle.regular14Black,),
-                      const SizedBox(height: 16,),
-                      Material(
-                        type: MaterialType.transparency,
-                        child: ListTile(
-                          title: Text("Penelitian Lapangan", style: AppTextStyle.bold14Black,),
-                          subtitle: Text('Laporan hasil penelitian lapangan yang sudah di lakukan', style: AppTextStyle.regular12Black,),
-                          leading: Icon(Icons.search_off_rounded, color: AppColor.purple,),
-                          splashColor: Colors.grey[250],
-                          hoverColor: Colors.grey[100],
-                          onTap: () {
-                            FirebaseAnalytics.instance.logEvent(name: "Research_Report_Clicked");
-                            AppNavigation.instance.push(path: AppConstant.researchListRoute);
+                      const MenuWidget(),
+                      const SizedBox(height: 24,),
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  blurRadius: 7,
+                                  spreadRadius: 5,
+                                  offset: const Offset(0, 1)
+                              )
+                            ]
+                        ),
+                        width: 400,
+                        child: TableCalendar(
+                          headerStyle: const HeaderStyle(
+                              formatButtonVisible: false
+                          ),
+                          firstDay: DateTime.utc(2020, 10, 16),
+                          lastDay: DateTime.utc(2030, 3, 14),
+                          focusedDay: DateTime.now(),
+                          headerVisible: true,
+                          weekNumbersVisible: false,
+                          enabledDayPredicate: (day) => true,
+                          selectedDayPredicate: (day) {
+                            return _selectedDate == day;
                           },
+                          onDaySelected: (selectedDay, focusedDay) {
+                            setState(() {
+                              _selectedDate = selectedDay;
+                            });
+                          },
+                          eventLoader: (day) => [],
+                          calendarStyle: CalendarStyle(
+                              selectedDecoration: BoxDecoration(
+                                  color: AppColor.greenColor
+                              ),
+                              todayDecoration: BoxDecoration(
+                                  color: AppColor.greenColor.withOpacity(0.5)
+                              )
+                          ),
                         ),
                       ),
-                      Material(
-                        type: MaterialType.transparency,
-                        child: ListTile(
-                          title: Text("Program Deteksi Objek", style: AppTextStyle.bold14Black,),
-                          subtitle: Text('Pendeteksian secara langsung untuk menunjang penelitian', style: AppTextStyle.regular12Black,),
-                          leading: Icon(Icons.settings_overscan_sharp, color: AppColor.bgGreenColor,),
-                          splashColor: Colors.grey[250],
-                          hoverColor: Colors.grey[100],
-                          onTap: () {
-                            FirebaseAnalytics.instance.logEvent(name: "Realtime_Detector_Clicked");
-                            AppNavigation.instance.push(path: AppConstant.researchDetectRoute);
-                          },
-                        ),
-                      ),
-                      Material(
-                        type: MaterialType.transparency,
-                        child: ListTile(
-                          title: Text("Kompres Gambar", style: AppTextStyle.bold14Black,),
-                          subtitle: Text('Pendeteksian secara langsung untuk menunjang penelitian', style: AppTextStyle.regular12Black,),
-                          leading: Icon(Icons.photo_size_select_actual_outlined, color: AppColor.deepBlue,),
-                          splashColor: Colors.grey[250],
-                          hoverColor: Colors.grey[100],
-                          onTap: () {
-                            FirebaseAnalytics.instance.logEvent(name: "Image_Compressor_Clicked");
-                            AppNavigation.instance.push(path: AppConstant.imageCompressor);
-                          },
-                        ),
-                      ),
+                      const SizedBox(height: 24,),
+                      AgendaWidget(selectedDate: _selectedDate)
                     ],
-                  )
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Expanded(child: MenuWidget()),
+                      const SizedBox(width: 24,),
+                      Expanded(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey.withOpacity(0.2),
+                                    blurRadius: 7,
+                                    spreadRadius: 5,
+                                    offset: const Offset(0, 1)
+                                )
+                              ]
+                          ),
+                          // width: 400,
+                          child: TableCalendar(
+                            headerStyle: const HeaderStyle(
+                                formatButtonVisible: false
+                            ),
+                            firstDay: DateTime.utc(2020, 10, 16),
+                            lastDay: DateTime.utc(2030, 3, 14),
+                            focusedDay: DateTime.now(),
+                            headerVisible: true,
+                            weekNumbersVisible: false,
+                            enabledDayPredicate: (day) => true,
+                            selectedDayPredicate: (day) {
+                              return _selectedDate == day;
+                            },
+                            onDaySelected: (selectedDay, focusedDay) {
+                              setState(() {
+                                _selectedDate = selectedDay;
+                              });
+                            },
+                            eventLoader: (day) => [],
+                            calendarStyle: CalendarStyle(
+                                selectedDecoration: BoxDecoration(
+                                    color: AppColor.greenColor
+                                ),
+                                todayDecoration: BoxDecoration(
+                                    color: AppColor.greenColor.withOpacity(0.5)
+                                )
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 24,),
+                      Expanded(child: AgendaWidget(selectedDate: _selectedDate))
+                    ],
+                  ),
                 )
               ],
             ),
