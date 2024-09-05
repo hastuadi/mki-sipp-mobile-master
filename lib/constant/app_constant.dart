@@ -2,7 +2,7 @@
 
 
 class AppConstant {
-  static const String baseUrl = "https://sipp-gateway-service-nycwkzvlfa-as.a.run.app";
+  static const String baseUrl = "https://sipp-gateway-service-479490674481.asia-southeast1.run.app";
 
   static Map<String, String> baseHeader = {
     "Content-Type": "application/json",

@@ -66,112 +66,216 @@ class _RegisterState extends State<Register> {
       title: Text("Pendaftaran", style: AppTextStyle.bold14,),
       ),
       backgroundColor: Colors.white,
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned(
-            left: -100,
-            top: -87,
-            child: Image.asset('assets/images/general/round-bg-icon.png'),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Center(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Text("Selamat Datang peneliti!", style: AppTextStyle.bold18Black,),
-                      const SizedBox(height: 3,),
-                      Text("Daftar untuk menggunakan aplikasi", style: AppTextStyle.regular14Black,),
-                      const SizedBox(height: 24,),
-                      BaseInput(controller: nameController, hint: "Nama Lengkap", validator: (text) {
-                        if(text == null|| text == "") {
-                          return "Silahkan lengkapi form ini";
-                        } else if(text.length < 3) {
-                          return "Nama ini tidak valid";
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              width: 600,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                        color: Colors.grey.withOpacity(0.2),
+                        blurRadius: 7,
+                        spreadRadius: 5,
+                        offset: const Offset(0, 1)
+                    )
+                  ]
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const SizedBox(height: 16,),
+                    Text("Selamat Datang peneliti!", style: AppTextStyle.bold18Black,),
+                    const SizedBox(height: 3,),
+                    Text("Daftar untuk menggunakan aplikasi", style: AppTextStyle.regular14Black,),
+                    const SizedBox(height: 24,),
+                    BaseInput(controller: nameController, hint: "Nama Lengkap", validator: (text) {
+                      if(text == null|| text == "") {
+                        return "Silahkan lengkapi form ini";
+                      } else if(text.length < 3) {
+                        return "Nama ini tidak valid";
+                      }
+                      return null;
+                    },autovalidateMode: AutovalidateMode.onUserInteraction,),
+                    const SizedBox(height: 16,),
+                    BaseInput(controller: emailController, hint: "Email", keyboardType: TextInputType.emailAddress, validator: (text) {
+                      if(text == null|| text == "") {
+                        return "Silahkan lengkapi form ini";
+                      } else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                          .hasMatch(text)) {
+                        return "Email tidak valid";
+                      }
+                      return null;
+                    },autovalidateMode: AutovalidateMode.onUserInteraction,),
+                    const SizedBox(height: 16,),
+                    BaseInput(controller: passwordController, hint: "Password", obscureText: true, validator: (text) {
+                      if(text == null|| text == "") {
+                        return "Silahkan lengkapi form ini";
+                      }
+                      return null;
+                    }, autovalidateMode: AutovalidateMode.onUserInteraction,),
+                    const SizedBox(height: 16,),
+                    BaseInput(controller: confirmationPasswordController, hint: "Konfirmasi Password", obscureText: true, validator: (text) {
+                      if(text == null|| text == "") {
+                        return "Silahkan lengkapi form ini";
+                      } else if(text != passwordController.text) {
+                        return "Password tidak sama";
+                      }
+                      return null;
+                    },autovalidateMode: AutovalidateMode.onUserInteraction,),
+                    const SizedBox(height: 24,),
+                    BaseButton(
+                      onPressed: () async {
+                        formKey.currentState?.validate();
+                        RegisterRequest request = RegisterRequest(email: emailController.text.toString(), fullName: nameController.text.toString(), password: passwordController.text.toString());
+                        AuthProvider provider = context.read<AuthProvider>();
+                        await provider.createUser(request);
+                        if(provider.createUserResponse?.code == 201) {
+                          FirebaseAnalytics.instance.logEvent(name: "Register_Success");
+                          AppSnackBar.instance.show("Register Berhasil");
+                          AppNavigation.instance.neglect(path: AppConstant.loginRoute);
+                        } else {
+                          FirebaseAnalytics.instance.logEvent(name: "Register_Success", parameters: {
+                            "error_code": provider.createUserResponse?.code
+                          });
+                          AppSnackBar.instance.show(provider.createUserResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
                         }
-                        return null;
-                      },autovalidateMode: AutovalidateMode.onUserInteraction,),
-                      const SizedBox(height: 16,),
-                      BaseInput(controller: emailController, hint: "Email", keyboardType: TextInputType.emailAddress, validator: (text) {
-                        if(text == null|| text == "") {
-                          return "Silahkan lengkapi form ini";
-                        } else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                            .hasMatch(text)) {
-                          return "Email tidak valid";
-                        }
-                        return null;
-                      },autovalidateMode: AutovalidateMode.onUserInteraction,),
-                      const SizedBox(height: 16,),
-                      BaseInput(controller: passwordController, hint: "Password", obscureText: true, validator: (text) {
-                        if(text == null|| text == "") {
-                          return "Silahkan lengkapi form ini";
-                        }
-                        return null;
-                      }, autovalidateMode: AutovalidateMode.onUserInteraction,),
-                      const SizedBox(height: 16,),
-                      BaseInput(controller: confirmationPasswordController, hint: "Konfirmasi Password", obscureText: true, validator: (text) {
-                        if(text == null|| text == "") {
-                          return "Silahkan lengkapi form ini";
-                        } else if(text != passwordController.text) {
-                          return "Password tidak sama";
-                        }
-                        return null;
-                      },autovalidateMode: AutovalidateMode.onUserInteraction,),
-                    ],
-                  ),
+                      },
+                      buttonStyle: AppButtonStyle.greenFilled,
+                      child: Text("Daftar", style: AppTextStyle.bold12White,),
+                    ),
+                    const SizedBox(height: 10,),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text("Sudah punya akun?", style: AppTextStyle.regular14Black,),
+                        const SizedBox(width: 3,),
+                        InkWell(
+                            onTap: () {
+                              AppNavigation.instance.neglect(path: AppConstant.loginRoute);
+                            },
+                            child: Text("Masuk", style: AppTextStyle.bold14Primary,)
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ),
-          )
-        ],
-      ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            BaseButton(
-              onPressed: () async {
-                formKey.currentState?.validate();
-                RegisterRequest request = RegisterRequest(email: emailController.text.toString(), fullName: nameController.text.toString(), password: passwordController.text.toString());
-                AuthProvider provider = context.read<AuthProvider>();
-                await provider.createUser(request);
-                if(provider.createUserResponse?.code == 201) {
-                  FirebaseAnalytics.instance.logEvent(name: "Register_Success");
-                  AppSnackBar.instance.show("Register Berhasil");
-                  AppNavigation.instance.neglect(path: AppConstant.loginRoute);
-                } else {
-                  FirebaseAnalytics.instance.logEvent(name: "Register_Success", parameters: {
-                    "error_code": provider.createUserResponse?.code
-                  });
-                  AppSnackBar.instance.show(provider.createUserResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
-                }
-              },
-              buttonStyle: AppButtonStyle.greenFilled,
-              child: Text("Daftar", style: AppTextStyle.bold12White,),
-            ),
-            const SizedBox(height: 10,),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("Sudah punya akun?", style: AppTextStyle.regular14Black,),
-                const SizedBox(width: 3,),
-                InkWell(
-                  onTap: () {
-                    AppNavigation.instance.neglect(path: AppConstant.loginRoute);
-                  },
-                    child: Text("Masuk", style: AppTextStyle.bold14Primary,)
-                ),
-              ],
-            )
-          ],
+          ),
         ),
       ),
+      // body: Stack(
+      //   fit: StackFit.expand,
+      //   children: [
+      //     Positioned(
+      //       left: -100,
+      //       top: -87,
+      //       child: Image.asset('assets/images/general/round-bg-icon.png'),
+      //     ),
+      //     Padding(
+      //       padding: const EdgeInsets.all(16.0),
+      //       child: Center(
+      //         child: SingleChildScrollView(
+      //           child: Form(
+      //             key: formKey,
+      //             child: Column(
+      //               mainAxisAlignment: MainAxisAlignment.center,
+      //               crossAxisAlignment: CrossAxisAlignment.center,
+      //               children: [
+      //                 Text("Selamat Datang peneliti!", style: AppTextStyle.bold18Black,),
+      //                 const SizedBox(height: 3,),
+      //                 Text("Daftar untuk menggunakan aplikasi", style: AppTextStyle.regular14Black,),
+      //                 const SizedBox(height: 24,),
+      //                 BaseInput(controller: nameController, hint: "Nama Lengkap", validator: (text) {
+      //                   if(text == null|| text == "") {
+      //                     return "Silahkan lengkapi form ini";
+      //                   } else if(text.length < 3) {
+      //                     return "Nama ini tidak valid";
+      //                   }
+      //                   return null;
+      //                 },autovalidateMode: AutovalidateMode.onUserInteraction,),
+      //                 const SizedBox(height: 16,),
+      //                 BaseInput(controller: emailController, hint: "Email", keyboardType: TextInputType.emailAddress, validator: (text) {
+      //                   if(text == null|| text == "") {
+      //                     return "Silahkan lengkapi form ini";
+      //                   } else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+      //                       .hasMatch(text)) {
+      //                     return "Email tidak valid";
+      //                   }
+      //                   return null;
+      //                 },autovalidateMode: AutovalidateMode.onUserInteraction,),
+      //                 const SizedBox(height: 16,),
+      //                 BaseInput(controller: passwordController, hint: "Password", obscureText: true, validator: (text) {
+      //                   if(text == null|| text == "") {
+      //                     return "Silahkan lengkapi form ini";
+      //                   }
+      //                   return null;
+      //                 }, autovalidateMode: AutovalidateMode.onUserInteraction,),
+      //                 const SizedBox(height: 16,),
+      //                 BaseInput(controller: confirmationPasswordController, hint: "Konfirmasi Password", obscureText: true, validator: (text) {
+      //                   if(text == null|| text == "") {
+      //                     return "Silahkan lengkapi form ini";
+      //                   } else if(text != passwordController.text) {
+      //                     return "Password tidak sama";
+      //                   }
+      //                   return null;
+      //                 },autovalidateMode: AutovalidateMode.onUserInteraction,),
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //     )
+      //   ],
+      // ),
+      // bottomNavigationBar: Padding(
+      //   padding: const EdgeInsets.all(16.0),
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       BaseButton(
+      //         onPressed: () async {
+      //           formKey.currentState?.validate();
+      //           RegisterRequest request = RegisterRequest(email: emailController.text.toString(), fullName: nameController.text.toString(), password: passwordController.text.toString());
+      //           AuthProvider provider = context.read<AuthProvider>();
+      //           await provider.createUser(request);
+      //           if(provider.createUserResponse?.code == 201) {
+      //             FirebaseAnalytics.instance.logEvent(name: "Register_Success");
+      //             AppSnackBar.instance.show("Register Berhasil");
+      //             AppNavigation.instance.neglect(path: AppConstant.loginRoute);
+      //           } else {
+      //             FirebaseAnalytics.instance.logEvent(name: "Register_Success", parameters: {
+      //               "error_code": provider.createUserResponse?.code
+      //             });
+      //             AppSnackBar.instance.show(provider.createUserResponse?.message ?? "Terjadi Kesalahan, Coba Beberapa Saat Lagi");
+      //           }
+      //         },
+      //         buttonStyle: AppButtonStyle.greenFilled,
+      //         child: Text("Daftar", style: AppTextStyle.bold12White,),
+      //       ),
+      //       const SizedBox(height: 10,),
+      //       Row(
+      //         mainAxisAlignment: MainAxisAlignment.center,
+      //         children: [
+      //           Text("Sudah punya akun?", style: AppTextStyle.regular14Black,),
+      //           const SizedBox(width: 3,),
+      //           InkWell(
+      //             onTap: () {
+      //               AppNavigation.instance.neglect(path: AppConstant.loginRoute);
+      //             },
+      //               child: Text("Masuk", style: AppTextStyle.bold14Primary,)
+      //           ),
+      //         ],
+      //       )
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
