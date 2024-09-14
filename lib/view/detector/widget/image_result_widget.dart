@@ -82,7 +82,7 @@ class ImageResultWidget extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () async {
                                       String path = "${provider.detectionResultResponse?.baseResourceFolder}/${provider.detectionResultResponse?.regions?[index].filename}";
-                                      await provider.delete(path,false, index: index);
+                                      await provider.delete(path,true, index: index);
                                     },
                                     child: const Icon(Icons.remove_circle_rounded, size: 32, color: Colors.red,),
                                   ),
